@@ -1,43 +1,37 @@
 package com.example.administrator.bakingtime;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.administrator.bakingtime.adapter.RecipeAdapter;
 import com.example.administrator.bakingtime.model.Recipe;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import timber.log.Timber;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
 
-public class RecipeFragment extends Fragment {
+public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClickListener {
+    private static final String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+    private Moshi moshi;
     private RecipeAdapter mRecipeAdapter;
     private RecyclerView mRecyclerView;
-    private List<Recipe> mRecipeList;
-    private List<Recipe.Ingredient> mIngredientList;
-    private List<Recipe.Step> mStepList;
 
-    public RecipeFragment() {
-        // Required empty public constructor
-    }
+    public RecipeFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,67 +41,61 @@ public class RecipeFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-        RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+        try {
+            getRecipe();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        mRecipeList = new ArrayList<>();
-        mIngredientList = new ArrayList<>();
-        mStepList = new ArrayList<>();
+        return rootView;
+    }
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
+    private void getRecipe() throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, okhttp3.Response response) throws IOException {
+
+                final String jsonResponse = response.body().string();
+
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void run() {
+                        moshi = new Moshi.Builder().build();
+                        Type type = Types.newParameterizedType(List.class, Recipe.class);
+                        JsonAdapter<List<Recipe>> adapter = moshi.adapter(type);
                         try {
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject recipeObj = response.getJSONObject(i);
-                                JSONArray ingredientsArray = recipeObj.getJSONArray("ingredients");
-                                for (int j = 0; j < ingredientsArray.length(); j++) {
-                                    JSONObject ingredientObj = ingredientsArray.getJSONObject(i);
-                                    Recipe.Ingredient ingredient = Recipe.Ingredient.builder()
-                                            .quantity(ingredientObj.getInt("quantity"))
-                                            .measure(ingredientObj.getString("measure"))
-                                            .ingredient(ingredientObj.getString("ingredient"))
-                                            .build();
-                                    mIngredientList.add(ingredient);
-                                }
-                                JSONArray stepsArray = recipeObj.getJSONArray("steps");
-                                for (int k = 0; k < stepsArray.length(); k++) {
-                                    JSONObject stepObj = stepsArray.getJSONObject(i);
-                                    Recipe.Step step = Recipe.Step.builder()
-                                            .id(stepObj.getInt("id"))
-                                            .shortDescription(stepObj.getString("shortDescription"))
-                                            .description(stepObj.getString("description"))
-                                            .videoURL(stepObj.getString("videoURL"))
-                                            .thumbnailURL(stepObj.getString("thumbnailURL"))
-                                            .build();
-                                    mStepList.add(step);
-                                }
-                                Recipe recipe = Recipe.builder()
-                                        .id(recipeObj.getInt("id"))
-                                        .name(recipeObj.getString("name"))
-                                        .servings(recipeObj.getInt("servings"))
-                                        .image(recipeObj.getString("image"))
-                                        .ingredients(mIngredientList)
-                                        .steps(mStepList)
-                                        .build();
-                                mRecipeList.add(recipe);
+                            List<Recipe> recipes = adapter.fromJson(jsonResponse);
+                            if (recipes != null) {
+                                List<Recipe> mRecipeList = new ArrayList<>();
+                                mRecipeList.addAll(recipes);
+                                mRecipeAdapter = new RecipeAdapter(mRecipeList, RecipeFragment.this);
+                                mRecyclerView.setAdapter(mRecipeAdapter);
                             }
-                            mRecipeAdapter = new RecipeAdapter(mRecipeList);
-                            mRecyclerView.setAdapter(mRecipeAdapter);
 
-                        } catch (JSONException e) {
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                });
             }
         });
-        queue.add(jsonArrayRequest);
+    }
 
-        return rootView;
+    @Override
+    public void OnItemClick(Recipe recipe) {
+        Intent intent = new Intent(getActivity().getApplicationContext(), DetailActivity.class);
+        intent.putExtra("recipe", recipe);
+        getActivity().startActivity(intent);
     }
 }

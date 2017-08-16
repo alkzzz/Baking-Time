@@ -1,86 +1,184 @@
 package com.example.administrator.bakingtime.model;
 
-import com.google.auto.value.AutoValue;
+import android.os.Parcel;
+import android.os.Parcelable;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-@AutoValue
-public abstract class Recipe {
-    public abstract int id();
-    public abstract String name();
-    public abstract List<Ingredient> ingredients();
-    public abstract List<Step> steps();
-    public abstract int servings();
-    public abstract String image();
+public class Recipe implements Parcelable {
+    public int id;
+    public String name;
+    public List<Ingredient> ingredients;
+    public List<Step> steps;
+    public int servings;
+    public String image;
 
-    public static Builder builder() {
-        return new AutoValue_Recipe.Builder();
+    public int getId() {
+        return id;
     }
 
-    @AutoValue
-    public abstract static class Ingredient {
-        public abstract int quantity();
-        public abstract String measure();
-        public abstract String ingredient();
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        public static Builder builder() {
-            return new AutoValue_Recipe_Ingredient.Builder();
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public List<Step> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
+    }
+
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public static class Ingredient implements Serializable {
+        public double quantity;
+        public String measure;
+        public String ingredient;
+
+        public double getQuantity() {
+            return quantity;
         }
 
-        @AutoValue.Builder
-        public abstract static class Builder {
-            public abstract Builder quantity(int quantity);
+        public void setQuantity(double quantity) {
+            this.quantity = quantity;
+        }
 
-            public abstract Builder measure(String measure);
+        public String getMeasure() {
+            return measure;
+        }
 
-            public abstract Builder ingredient(String ingredient);
+        public void setMeasure(String measure) {
+            this.measure = measure;
+        }
 
-            public abstract Ingredient build();
+        public String getIngredient() {
+            return ingredient;
+        }
+
+        public void setIngredient(String ingredient) {
+            this.ingredient = ingredient;
         }
     }
 
-    @AutoValue
-    public abstract static class Step {
-        public abstract int id();
-        public abstract String shortDescription();
-        public abstract String description();
-        public abstract String videoURL();
-        public abstract String thumbnailURL();
+    public static class Step implements Serializable {
+        public int id;
+        public String shortDescription;
+        public String description;
+        public String videoURL;
+        public String thumbnailURL;
 
-        public static Builder builder() {
-            return new AutoValue_Recipe_Step.Builder();
+        public int getId() {
+            return id;
         }
 
-        @AutoValue.Builder
-        public abstract static class Builder {
-            public abstract Builder id(int id);
+        public void setId(int id) {
+            this.id = id;
+        }
 
-            public abstract Builder shortDescription(String shortDescription);
+        public String getShortDescription() {
+            return shortDescription;
+        }
 
-            public abstract Builder description(String description);
+        public void setShortDescription(String shortDescription) {
+            this.shortDescription = shortDescription;
+        }
 
-            public abstract Builder videoURL(String videoURL);
+        public String getDescription() {
+            return description;
+        }
 
-            public abstract Builder thumbnailURL(String thumbnailURL);
+        public void setDescription(String description) {
+            this.description = description;
+        }
 
-            public abstract Step build();
+        public String getVideoURL() {
+            return videoURL;
+        }
+
+        public void setVideoURL(String videoURL) {
+            this.videoURL = videoURL;
+        }
+
+        public String getThumbnailURL() {
+            return thumbnailURL;
+        }
+
+        public void setThumbnailURL(String thumbnailURL) {
+            this.thumbnailURL = thumbnailURL;
         }
     }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
-        public abstract Builder id(int id);
-
-        public abstract Builder name(String name);
-
-        public abstract Builder ingredients(List<Ingredient> ingredients);
-
-        public abstract Builder steps(List<Step> steps);
-
-        public abstract Builder servings(int servings);
-
-        public abstract Builder image(String image);
-
-        public abstract Recipe build();
+    @Override
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.name);
+        dest.writeList(this.ingredients);
+        dest.writeList(this.steps);
+        dest.writeInt(this.servings);
+        dest.writeString(this.image);
+    }
+
+    public Recipe() {
+    }
+
+    protected Recipe(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.ingredients = new ArrayList<Ingredient>();
+        in.readList(this.ingredients, Ingredient.class.getClassLoader());
+        this.steps = new ArrayList<Step>();
+        in.readList(this.steps, Step.class.getClassLoader());
+        this.servings = in.readInt();
+        this.image = in.readString();
+    }
+
+    public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel source) {
+            return new Recipe(source);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 }

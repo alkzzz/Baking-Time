@@ -14,9 +14,11 @@ import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
     private List<Recipe> mRecipeList;
+    private OnItemClickListener mItemClickListener;
 
-    public RecipeAdapter(List<Recipe> recipes) {
+    public RecipeAdapter(List<Recipe> recipes, OnItemClickListener onItemClickListener) {
         mRecipeList = recipes;
+        mItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -27,7 +29,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public void onBindViewHolder(RecipeAdapter.RecipeViewHolder holder, int position) {
-        holder.tvRecipeName.setText(mRecipeList.get(position).name());
+        holder.bind(mRecipeList.get(position), mItemClickListener);
     }
 
     @Override
@@ -43,5 +45,19 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             cardView = (CardView) itemView.findViewById(R.id.cv_recipe);
             tvRecipeName = (TextView) itemView.findViewById(R.id.tv_recipe_name);
         }
+
+        public void bind(final Recipe recipe, final OnItemClickListener onItemClickListener) {
+            tvRecipeName.setText(recipe.name);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItemClickListener.OnItemClick(recipe);
+                }
+            });
+        }
+    }
+
+    public interface OnItemClickListener {
+        void OnItemClick(Recipe recipe);
     }
 }
