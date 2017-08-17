@@ -10,13 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
+import com.example.administrator.bakingtime.model.Step;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
-    private static List<Recipe.Step> sStepList;
-    private static List<Recipe.Ingredient> sIngredientsList;
+    private static List<Step> sStepList;
+    private static List<Ingredient> sIngredientsList;
     private int pageCount;
 
     @Override
@@ -25,8 +28,6 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         Bundle data = getIntent().getExtras();
         Recipe recipe = data.getParcelable("recipe");
-
-        sIngredientsList = recipe.getIngredients();
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle(recipe.getName());

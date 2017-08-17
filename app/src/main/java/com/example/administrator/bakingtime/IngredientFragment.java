@@ -8,17 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
 
 import java.util.List;
 
 public class IngredientFragment extends Fragment {
-    private static List<Recipe.Ingredient> sIngredient;
+    private static List<Ingredient> sIngredient;
 
     public IngredientFragment() {}
 
     // newInstance constructor for creating fragment with arguments
-    public static IngredientFragment newInstance(List<Recipe.Ingredient> ingredient) {
+    public static IngredientFragment newInstance(List<Ingredient> ingredient) {
         IngredientFragment ingredientFragment = new IngredientFragment();
         Bundle args = new Bundle();
         args.putParcelable("ingredient", (Parcelable) sIngredient);
