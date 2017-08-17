@@ -14,25 +14,6 @@ public class Recipe implements Parcelable{
     public int servings;
     public String image;
 
-    protected Recipe(Parcel in) {
-        id = in.readInt();
-        name = in.readString();
-        servings = in.readInt();
-        image = in.readString();
-    }
-
-    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
-        @Override
-        public Recipe createFromParcel(Parcel in) {
-            return new Recipe(in);
-        }
-
-        @Override
-        public Recipe[] newArray(int size) {
-            return new Recipe[size];
-        }
-    };
-
     public int getId() {
         return id;
     }
@@ -88,9 +69,35 @@ public class Recipe implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(name);
-        dest.writeInt(servings);
-        dest.writeString(image);
+        dest.writeInt(this.id);
+        dest.writeString(this.name);
+        dest.writeTypedList(this.ingredients);
+        dest.writeTypedList(this.steps);
+        dest.writeInt(this.servings);
+        dest.writeString(this.image);
     }
+
+    public Recipe() {
+    }
+
+    protected Recipe(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.ingredients = in.createTypedArrayList(Ingredient.CREATOR);
+        this.steps = in.createTypedArrayList(Step.CREATOR);
+        this.servings = in.readInt();
+        this.image = in.readString();
+    }
+
+    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel source) {
+            return new Recipe(source);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 }

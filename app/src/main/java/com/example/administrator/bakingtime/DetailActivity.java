@@ -11,12 +11,14 @@ import android.os.Bundle;
 
 import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
+import com.example.administrator.bakingtime.model.Step;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
-    private static ArrayList<com.example.administrator.bakingtime.model.Step> sStepList;
-    private static ArrayList<Ingredient> sIngredientsList;
+    private static List<Step> sStepList;
+    private static List<Ingredient> sIngredientsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
