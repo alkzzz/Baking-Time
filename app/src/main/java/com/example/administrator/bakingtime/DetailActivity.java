@@ -8,19 +8,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
-import com.example.administrator.bakingtime.model.Step;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
-    private static List<Step> sStepList;
-    private static List<Ingredient> sIngredientsList;
-    private int pageCount;
+    private static ArrayList<com.example.administrator.bakingtime.model.Step> sStepList;
+    private static ArrayList<Ingredient> sIngredientsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,25 +24,27 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         Bundle data = getIntent().getExtras();
         Recipe recipe = data.getParcelable("recipe");
+        sIngredientsList = data.getParcelableArrayList("ingredients");
+        sStepList = data.getParcelableArrayList("steps");
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle(recipe.getName());
 
         ViewPager recipePager = (ViewPager) findViewById(R.id.recipePager);
-        FragmentPagerAdapter adapterViewPager = new RecipePagerAdapter(getSupportFragmentManager(), pageCount);
+        FragmentPagerAdapter adapterViewPager = new RecipePagerAdapter(getSupportFragmentManager());
         recipePager.setAdapter(adapterViewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.recipeTab);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(recipePager);
 
     }
 
     public static class RecipePagerAdapter extends FragmentPagerAdapter {
-        private int NUM_COUNT;
 
-        public RecipePagerAdapter(FragmentManager fm, int pageCount) {
+        public RecipePagerAdapter(FragmentManager fm) {
             super(fm);
-            NUM_COUNT = pageCount;
         }
 
         @Override
@@ -55,13 +53,13 @@ public class DetailActivity extends AppCompatActivity {
                 case 0:
                     return IngredientFragment.newInstance(sIngredientsList);
                 default:
-                    return IngredientFragment.newInstance(sIngredientsList);
+                    return StepFragment.newInstance(sStepList);
             }
         }
 
         @Override
         public int getCount() {
-            return NUM_COUNT + 1; // Page for step + 1 for Ingredient Page
+            return sStepList.size(); // Page for step + 1 for Ingredient Page
         }
 
         @Override

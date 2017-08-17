@@ -7,22 +7,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientFragment extends Fragment {
-    private static List<Ingredient> sIngredient;
 
     public IngredientFragment() {}
 
     // newInstance constructor for creating fragment with arguments
-    public static IngredientFragment newInstance(List<Ingredient> ingredient) {
+    public static IngredientFragment newInstance(List<Ingredient> ingredients) {
         IngredientFragment ingredientFragment = new IngredientFragment();
         Bundle args = new Bundle();
-        args.putParcelable("ingredient", (Parcelable) sIngredient);
+        args.putParcelableArrayList("ingredient", (ArrayList<? extends Parcelable>) ingredients);
         ingredientFragment.setArguments(args);
         return ingredientFragment;
     }
@@ -31,7 +32,13 @@ public class IngredientFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_ingredient, container, false);
+
+        View rootView = inflater.inflate(R.layout.fragment_ingredient, container, false);
+
+        TextView tvIngredients = (TextView) rootView.findViewById(R.id.tv_ingredients);
+        tvIngredients.setText("Ingredients");
+
+        return rootView;
     }
 
 }

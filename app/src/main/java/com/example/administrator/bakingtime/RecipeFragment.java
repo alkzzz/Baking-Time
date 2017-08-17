@@ -3,6 +3,7 @@ package com.example.administrator.bakingtime;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.administrator.bakingtime.adapter.RecipeAdapter;
 import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
+import com.example.administrator.bakingtime.model.Step;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
@@ -95,12 +97,18 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
 
     @Override
     public void OnItemClick(Recipe recipe) {
-        Log.d("Recipe", recipe.getName());
-        for (Ingredient ing: recipe.getIngredients()) {
-            Log.d("Recipe", ing.getIngredient());
+        List<Ingredient> ingredients = new ArrayList<>();
+        for (Ingredient ingredient: recipe.getIngredients()) {
+            ingredients.add(ingredient);
+        }
+        List<Step> steps = new ArrayList<>();
+        for (Step step: recipe.getSteps()) {
+            steps.add(step);
         }
         Intent intent = new Intent(getActivity().getApplicationContext(), DetailActivity.class);
         intent.putExtra("recipe", recipe);
+        intent.putParcelableArrayListExtra("ingredients", (ArrayList<? extends Parcelable>) ingredients);
+        intent.putParcelableArrayListExtra("steps", (ArrayList<? extends Parcelable>) steps);
         getActivity().startActivity(intent);
     }
 }
