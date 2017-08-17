@@ -51,7 +51,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mItemClickListener.OnItemClick(recipe);
+                    onItemClickListener.OnItemClick(recipe);
                 }
             });
         }

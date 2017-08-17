@@ -94,6 +94,10 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
 
     @Override
     public void OnItemClick(Recipe recipe) {
+        Log.d("Recipe", recipe.getName());
+        for (Recipe.Ingredient ing: recipe.getIngredients()) {
+            Log.d("Recipe", ing.getIngredient());
+        }
         Intent intent = new Intent(getActivity().getApplicationContext(), DetailActivity.class);
         intent.putExtra("recipe", recipe);
         getActivity().startActivity(intent);

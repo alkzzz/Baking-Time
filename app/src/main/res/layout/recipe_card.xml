@@ -9,17 +9,16 @@
         android:id="@+id/cv_recipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="12dp"
-        app:cardBackgroundColor="@color/colorPrimary"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="18dp">
+        app:cardBackgroundColor="@color/colorPrimaryLight"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp">
 
         <TextView
             android:id="@+id/tv_recipe_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="@android:color/white"
+            android:textColor="@color/textColorPrimary"
             android:padding="24dp"
             android:textSize="42sp"
             android:textAlignment="center" />
