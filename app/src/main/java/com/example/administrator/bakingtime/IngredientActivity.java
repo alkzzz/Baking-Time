@@ -28,8 +28,8 @@ public class IngredientActivity extends AppCompatActivity {
         mStepList = data.getParcelableArrayList("steps");
 
         IngredientFragment ingredientFragment = new IngredientFragment();
+        ingredientFragment.setIngredientList(mIngredientsList);
         ingredientFragment.setStepList(mStepList);
-        Log.d("Testing", String.valueOf(mStepList.size()));
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle(recipe.getName());
