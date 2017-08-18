@@ -35,16 +35,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/step_title"
-            android:textSize="24sp"
-            android:textStyle="italic"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"/>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -55,10 +45,21 @@
             android:layout_marginTop="2dp"
             android:background="@color/divider"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/step_title"
+            android:textSize="24sp"
+            android:textStyle="italic"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_step"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"/>
 
     </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.example.administrator.bakingtime;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -21,9 +22,16 @@ public class StepActivity extends AppCompatActivity {
         setContentView(R.layout.activity_step);
 
         Bundle data = getIntent().getExtras();
-        mStepList = data.getParcelableArrayList("steps");
+        Step step = data.getParcelable("step");
 
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setTitle("Step "+(mStepList.get(0).getId() + 1));
+        actionbar.setTitle("Step "+(step.getId()+1));
+
+        StepFragment stepFragment = new StepFragment();
+        stepFragment.setStep(step);
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.step_container, stepFragment, null)
+                .commit();
     }
 }

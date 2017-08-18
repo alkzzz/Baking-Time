@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StepFragment extends Fragment {
+    private Step step;
 
     public StepFragment() {}
 
@@ -23,8 +24,13 @@ public class StepFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step, container, false);
+        TextView tvDesc = (TextView) rootView.findViewById(R.id.tv_step_desc);
+        tvDesc.setText(step.getDescription());
 
         return rootView;
     }
 
+    public void setStep(Step step) {
+        this.step = step;
+    }
 }

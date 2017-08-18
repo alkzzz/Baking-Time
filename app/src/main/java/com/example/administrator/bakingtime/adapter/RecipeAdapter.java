@@ -47,7 +47,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         }
 
         public void bind(final Recipe recipe, final OnItemClickListener onItemClickListener) {
-            tvRecipeName.setText(recipe.name);
+            tvRecipeName.setText(recipe.getName());
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
