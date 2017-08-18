@@ -12,10 +12,10 @@ import com.example.administrator.bakingtime.model.Ingredient;
 import java.util.List;
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
-    private List<Ingredient> mIngredientList;
+    private List<Ingredient> ingredients;
 
-    public IngredientAdapter(List<Ingredient> ingredientList) {
-        mIngredientList = ingredientList;
+    public IngredientAdapter(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     @Override
@@ -26,15 +26,15 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
 
     @Override
     public void onBindViewHolder(IngredientViewHolder holder, int position) {
-        String measure = mIngredientList.get(position).getMeasure();
-        double quantity = mIngredientList.get(position).getQuantity();
-        String ingredient = mIngredientList.get(position).getIngredient();
+        String measure = ingredients.get(position).getMeasure();
+        double quantity = ingredients.get(position).getQuantity();
+        String ingredient = ingredients.get(position).getIngredient();
         holder.cbIngredient.setText(quantity+" "+measure+" "+ingredient);
     }
 
     @Override
     public int getItemCount() {
-        return mIngredientList.size();
+        return ingredients.size();
     }
 
     public class IngredientViewHolder extends RecyclerView.ViewHolder {

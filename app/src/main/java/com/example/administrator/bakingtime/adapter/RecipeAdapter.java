@@ -13,11 +13,11 @@ import com.example.administrator.bakingtime.model.Recipe;
 import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
-    private List<Recipe> mRecipeList;
+    private List<Recipe> recipes;
     private OnItemClickListener mItemClickListener;
 
     public RecipeAdapter(List<Recipe> recipes, OnItemClickListener onItemClickListener) {
-        mRecipeList = recipes;
+        this.recipes = recipes;
         mItemClickListener = onItemClickListener;
     }
 
@@ -29,12 +29,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public void onBindViewHolder(RecipeAdapter.RecipeViewHolder holder, int position) {
-        holder.bind(mRecipeList.get(position), mItemClickListener);
+        holder.bind(recipes.get(position), mItemClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return mRecipeList.size();
+        return recipes.size();
     }
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder {

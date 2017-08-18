@@ -13,9 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.administrator.bakingtime.adapter.IngredientAdapter;
+import com.example.administrator.bakingtime.adapter.StepAdapter;
 import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
 import com.example.administrator.bakingtime.model.Step;
@@ -39,10 +42,22 @@ public class IngredientFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_ingredient, container, false);
-        RecyclerView rvIngredients = (RecyclerView) rootView.findViewById(R.id.rv_ingredient);
-        rvIngredients.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        IngredientAdapter ingredientAdapter = new IngredientAdapter(mIngredientList);
-        rvIngredients.setAdapter(ingredientAdapter);
+
+        LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.ll_ingredient_list);
+        for (Ingredient ing: mIngredientList) {
+            String measure = ing.getMeasure();
+            double quantity = ing.getQuantity();
+            String ingredient = ing.getIngredient();
+            CheckBox cbIngredients = new CheckBox(getActivity().getApplicationContext());
+            cbIngredients.setText(quantity+" "+measure+" "+ingredient);
+            cbIngredients.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            linearLayout.addView(cbIngredients);
+        }
+        RecyclerView rvSteps = (RecyclerView) rootView.findViewById(R.id.rv_step);
+        rvSteps.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        rvSteps.setNestedScrollingEnabled(false);
+        StepAdapter stepAdapter = new StepAdapter(mStepList);
+        rvSteps.setAdapter(stepAdapter);
 
         return rootView;
     }
