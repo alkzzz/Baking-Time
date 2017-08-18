@@ -7,7 +7,6 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,7 +104,7 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
         for (Step step: recipe.getSteps()) {
             steps.add(step);
         }
-        Intent intent = new Intent(getActivity().getApplicationContext(), DetailActivity.class);
+        Intent intent = new Intent(getActivity().getApplicationContext(), IngredientActivity.class);
         intent.putExtra("recipe", recipe);
         intent.putParcelableArrayListExtra("ingredients", (ArrayList<? extends Parcelable>) ingredients);
         intent.putParcelableArrayListExtra("steps", (ArrayList<? extends Parcelable>) steps);

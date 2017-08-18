@@ -17,25 +17,12 @@ import java.util.List;
 
 public class StepFragment extends Fragment {
 
-
     public StepFragment() {}
-
-    // newInstance constructor for creating fragment with arguments
-    public static StepFragment newInstance(List<Step> steps) {
-        StepFragment stepFragment = new StepFragment();
-        Bundle args = new Bundle();
-        args.putParcelableArrayList("ingredient", (ArrayList<? extends Parcelable>) steps);
-        stepFragment.setArguments(args);
-        return stepFragment;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step, container, false);
-
-        TextView tvShortDesc = (TextView) rootView.findViewById(R.id.tv_short_desc);
-        tvShortDesc.setText("Steps");
 
         return rootView;
     }

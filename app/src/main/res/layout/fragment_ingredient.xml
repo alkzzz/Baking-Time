@@ -4,9 +4,10 @@
              android:layout_height="match_parent"
              tools:context="com.example.administrator.bakingtime.IngredientFragment">
 
-    <TextView
-        android:id="@+id/tv_ingredients"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btn_click"
+        android:text="Click Me"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
 </FrameLayout>
