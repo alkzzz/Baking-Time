@@ -1,16 +1,14 @@
-package com.example.administrator.bakingtime;
+package com.example.administrator.bakingtime.ui;
 
-import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
 import com.example.administrator.bakingtime.model.Step;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientActivity extends AppCompatActivity {

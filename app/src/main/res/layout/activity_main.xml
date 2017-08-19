@@ -2,7 +2,7 @@
 <fragment
     android:id="@+id/recipe_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:name="com.example.administrator.bakingtime.RecipeFragment"
+    android:name="com.example.administrator.bakingtime.ui.RecipeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 </fragment>

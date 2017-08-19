@@ -1,7 +1,8 @@
-package com.example.administrator.bakingtime;
+package com.example.administrator.bakingtime.ui;
 
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
+import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.adapter.StepAdapter;
 import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Step;

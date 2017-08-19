@@ -1,14 +1,10 @@
-package com.example.administrator.bakingtime;
+package com.example.administrator.bakingtime.ui;
 
-import android.content.Intent;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.administrator.bakingtime.model.Recipe;
+import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.model.Step;
 
 import java.util.List;

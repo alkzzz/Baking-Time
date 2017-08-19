@@ -2,4 +2,6 @@
     <string name="app_name">Baking Time</string>
     <string name="ingredient_title">Ingredients</string>
     <string name="step_title">Steps</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

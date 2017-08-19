@@ -1,4 +1,4 @@
-package com.example.administrator.bakingtime;
+package com.example.administrator.bakingtime.ui;
 
 
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.adapter.RecipeAdapter;
 import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;

@@ -48,6 +48,11 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
         public void bind(final Step step, final OnItemClickListener onItemClickListener) {
             tvStepShortDesc.setText(step.getShortDescription());
+            if (step.videoURL.equals("")) {
+                tvStepShortDesc.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_videocam_off_black_24dp, 0, 0, 0);
+            } else {
+                tvStepShortDesc.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_videocam_black_24dp, 0, 0, 0);
+            }
             cvStepCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
