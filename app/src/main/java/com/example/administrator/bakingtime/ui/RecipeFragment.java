@@ -1,9 +1,11 @@
 package com.example.administrator.bakingtime.ui;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +39,12 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
     public RecipeFragment() {}
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recipe, container, false);
@@ -44,13 +52,17 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
+        return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
             getRecipe();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return rootView;
     }
 
     private void getRecipe() throws IOException {

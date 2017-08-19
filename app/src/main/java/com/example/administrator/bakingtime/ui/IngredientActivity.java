@@ -1,5 +1,6 @@
 package com.example.administrator.bakingtime.ui;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import java.util.List;
 public class IngredientActivity extends AppCompatActivity {
     private List<Ingredient> mIngredientsList;
     private List<Step> mStepList;
+    private static final String TAG_INGREDIENT_FRAGMENT = "IngredientFragment";
+    private IngredientFragment mIngredientFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +28,21 @@ public class IngredientActivity extends AppCompatActivity {
         mIngredientsList = data.getParcelableArrayList("ingredients");
         mStepList = data.getParcelableArrayList("steps");
 
-        IngredientFragment ingredientFragment = new IngredientFragment();
-        ingredientFragment.setIngredientList(mIngredientsList);
-        ingredientFragment.setStepList(mStepList);
-
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle(recipe.getName());
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.ingredient_container, ingredientFragment, null)
-                .commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        mIngredientFragment = (IngredientFragment) fragmentManager.findFragmentByTag(TAG_INGREDIENT_FRAGMENT);
+
+        if(mIngredientFragment == null) {
+            IngredientFragment ingredientFragment = new IngredientFragment();
+            ingredientFragment.setIngredientList(mIngredientsList);
+            ingredientFragment.setStepList(mStepList);
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.ingredient_container, ingredientFragment, TAG_INGREDIENT_FRAGMENT)
+                    .commit();
+        }
     }
 
 }

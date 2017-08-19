@@ -1,5 +1,6 @@
 package com.example.administrator.bakingtime.ui;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +11,8 @@ import com.example.administrator.bakingtime.model.Step;
 import java.util.List;
 
 public class StepActivity extends AppCompatActivity {
-    private List<Step> mStepList;
+    private static final String TAG_STEP_FRAGMENT = "StepFragment";
+    private StepFragment mStepFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +25,17 @@ public class StepActivity extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle("Step "+(step.getId()+1));
 
-        StepFragment stepFragment = new StepFragment();
-        stepFragment.setStep(step);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        mStepFragment = (StepFragment) fragmentManager.findFragmentByTag(TAG_STEP_FRAGMENT);
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.step_container, stepFragment, null)
-                .commit();
+        if (mStepFragment == null) {
+            StepFragment stepFragment = new StepFragment();
+            stepFragment.setStep(step);
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.step_container, stepFragment, TAG_STEP_FRAGMENT)
+                    .commit();
+        }
+
     }
 }
