@@ -35,12 +35,12 @@ public class IngredientActivity extends AppCompatActivity {
         mIngredientFragment = (IngredientFragment) fragmentManager.findFragmentByTag(TAG_INGREDIENT_FRAGMENT);
 
         if(mIngredientFragment == null) {
-            IngredientFragment ingredientFragment = new IngredientFragment();
-            ingredientFragment.setIngredientList(mIngredientsList);
-            ingredientFragment.setStepList(mStepList);
+            mIngredientFragment = new IngredientFragment();
+            mIngredientFragment.setIngredientList(mIngredientsList);
+            mIngredientFragment.setStepList(mStepList);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.ingredient_container, ingredientFragment, null)
+                    .add(R.id.ingredient_container, mIngredientFragment, null)
                     .commit();
         }
     }

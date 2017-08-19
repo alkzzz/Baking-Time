@@ -60,12 +60,12 @@ public class StepActivity extends AppCompatActivity {
         mStepFragment = (StepFragment) fragmentManager.findFragmentByTag(TAG_STEP_FRAGMENT);
 
         if (mStepFragment == null) {
-            StepFragment stepFragment = new StepFragment();
-            stepFragment.setStepList(stepList);
-            stepFragment.setIndex(stepIndex);
+            mStepFragment = new StepFragment();
+            mStepFragment.setStepList(stepList);
+            mStepFragment.setIndex(stepIndex);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.step_container, stepFragment, TAG_STEP_FRAGMENT)
+                    .add(R.id.step_container, mStepFragment, TAG_STEP_FRAGMENT)
                     .commit();
         }
     }
@@ -75,34 +75,34 @@ public class StepActivity extends AppCompatActivity {
     }
 
     public void prevStep() {
-        if (stepIndex == 1) {
-            prevButton.setVisibility(View.INVISIBLE);
-        }
         if (stepIndex > 0 ) {
             nextButton.setVisibility(View.VISIBLE);
             stepIndex--;
+            if (stepIndex == 0) {
+                prevButton.setVisibility(View.INVISIBLE);
+            }
         }
-        StepFragment stepFragment = new StepFragment();
-        stepFragment.setStepList(stepList);
-        stepFragment.setIndex(stepIndex);
+        mStepFragment = new StepFragment();
+        mStepFragment.setStepList(stepList);
+        mStepFragment.setIndex(stepIndex);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.step_container, stepFragment, TAG_STEP_FRAGMENT)
+                .replace(R.id.step_container, mStepFragment, TAG_STEP_FRAGMENT)
                 .commit();
     }
 
     public void nextStep() {
-        if (stepIndex == (stepList.size() - 2)) {
-            nextButton.setVisibility(View.INVISIBLE);
-        }
         if (stepIndex < stepList.size() -1) {
             prevButton.setVisibility(View.VISIBLE);
             stepIndex++;
+            if (stepIndex == (stepList.size() - 1)) {
+                nextButton.setVisibility(View.INVISIBLE);
+            }
         }
-        StepFragment stepFragment = new StepFragment();
-        stepFragment.setStepList(stepList);
-        stepFragment.setIndex(stepIndex);
+        mStepFragment = new StepFragment();
+        mStepFragment.setStepList(stepList);
+        mStepFragment.setIndex(stepIndex);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.step_container, stepFragment, TAG_STEP_FRAGMENT)
+                .replace(R.id.step_container, mStepFragment, TAG_STEP_FRAGMENT)
                 .commit();
     }
 }

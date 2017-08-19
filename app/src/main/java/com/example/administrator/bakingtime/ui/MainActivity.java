@@ -17,13 +17,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // find the retained fragment on activity restarts
         FragmentManager fm = getSupportFragmentManager();
         mRecipeFragment = (RecipeFragment) fm.findFragmentByTag(TAG_RECIPE_FRAGMENT);
 
-        // create the fragment and data the first time
         if (mRecipeFragment == null) {
-            // add the fragment
             mRecipeFragment = new RecipeFragment();
             fm.beginTransaction().add(mRecipeFragment, TAG_RECIPE_FRAGMENT).commit();
         }
