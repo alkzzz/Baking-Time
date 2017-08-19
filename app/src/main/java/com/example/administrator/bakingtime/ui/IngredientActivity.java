@@ -40,7 +40,7 @@ public class IngredientActivity extends AppCompatActivity {
             ingredientFragment.setStepList(mStepList);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.ingredient_container, ingredientFragment, TAG_INGREDIENT_FRAGMENT)
+                    .add(R.id.ingredient_container, ingredientFragment, null)
                     .commit();
         }
     }

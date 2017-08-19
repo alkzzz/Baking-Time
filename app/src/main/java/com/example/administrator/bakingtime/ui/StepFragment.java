@@ -33,8 +33,6 @@ public class StepFragment extends Fragment implements OnPreparedListener {
     private List<Step> mStepList;
     private int stepIndex;
     private com.devbrackets.android.exomedia.ui.widget.VideoView videoView;
-    private Button prevButton;
-    private Button nextButton;
 
     public StepFragment() {}
 
@@ -70,30 +68,6 @@ public class StepFragment extends Fragment implements OnPreparedListener {
             if (rootView.findViewById(R.id.layout_fullscreen) == null) {
                 TextView tvDesc = (TextView) rootView.findViewById(R.id.tv_step_desc);
                 tvDesc.setText(description);
-                prevButton = (Button) rootView.findViewById(R.id.btn_previous);
-                if (stepIndex == 0) {
-                    prevButton.setVisibility(View.INVISIBLE);
-                } else {
-                    prevButton.setVisibility(View.VISIBLE);
-                    prevButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            prevStep();
-                        }
-                    });
-                }
-                nextButton = (Button) rootView.findViewById(R.id.btn_next);
-                if (stepIndex == mStepList.size() -1) {
-                    nextButton.setVisibility(View.INVISIBLE);
-                } else {
-                    nextButton.setVisibility(View.VISIBLE);
-                    nextButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            nextStep();
-                        }
-                    });
-                }
             }
         }
 
@@ -112,22 +86,5 @@ public class StepFragment extends Fragment implements OnPreparedListener {
     public void setIndex(int index) {
         stepIndex = index;
     }
-
-    public void prevStep() {
-        if (stepIndex > 0 ) {
-            stepIndex--;
-        } else {
-            stepIndex = mStepList.size() - 1;
-        }
-    }
-
-    public void nextStep() {
-        if (stepIndex < mStepList.size() -1) {
-            stepIndex++;
-        } else {
-            stepIndex = 0;
-        }
-    }
-
 
 }
