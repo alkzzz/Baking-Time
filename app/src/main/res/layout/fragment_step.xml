@@ -24,7 +24,7 @@
         app:useDefaultControls="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_margin="8dp">
     </com.devbrackets.android.exomedia.ui.widget.VideoView>
 
@@ -32,7 +32,39 @@
         android:id="@+id/tv_step_desc"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_margin="8dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/btn_previous"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/colorAccent"
+            android:textColor="@color/textColorPrimary"
+            android:text="@string/previous"
+            android:drawableLeft="@drawable/ic_navigate_before_black_24dp"
+            android:drawableStart="@drawable/ic_navigate_before_black_24dp"/>
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@color/colorAccent"
+            android:textColor="@color/textColorPrimary"
+            android:text="@string/next"
+            android:drawableRight="@drawable/ic_navigate_next_black_24dp"
+            android:drawableEnd="@drawable/ic_navigate_next_black_24dp"/>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -20,22 +20,25 @@ public class StepActivity extends AppCompatActivity {
         setContentView(R.layout.activity_step);
 
         Bundle data = getIntent().getExtras();
-        Step step = data.getParcelable("step");
-
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setTitle("Step "+(step.getId()+1));
+        List<Step> stepList = data.getParcelableArrayList("steplist");
+        int index = data.getInt("index");
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         mStepFragment = (StepFragment) fragmentManager.findFragmentByTag(TAG_STEP_FRAGMENT);
 
         if (mStepFragment == null) {
             StepFragment stepFragment = new StepFragment();
-            stepFragment.setStep(step);
+            stepFragment.setStepList(stepList);
+            stepFragment.setIndex(index);
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.step_container, stepFragment, TAG_STEP_FRAGMENT)
                     .commit();
         }
 
+    }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 }

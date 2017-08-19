@@ -29,7 +29,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     @Override
     public void onBindViewHolder(StepViewHolder holder, int position) {
-        holder.bind(stepList.get(position), onItemClickListener);
+        holder.bind(position, onItemClickListener);
     }
 
     @Override
@@ -46,9 +46,9 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
             tvStepShortDesc = (TextView) itemView.findViewById(R.id.step_short_desc);
         }
 
-        public void bind(final Step step, final OnItemClickListener onItemClickListener) {
-            tvStepShortDesc.setText(step.getShortDescription());
-            if (step.videoURL.equals("")) {
+        public void bind(final int position, final OnItemClickListener onItemClickListener) {
+            tvStepShortDesc.setText(stepList.get(position).getShortDescription());
+            if (stepList.get(position).getVideoURL().equals("")) {
                 tvStepShortDesc.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_videocam_off_black_24dp, 0, 0, 0);
             } else {
                 tvStepShortDesc.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_videocam_black_24dp, 0, 0, 0);
@@ -56,13 +56,13 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
             cvStepCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClickListener.onItemClick(step);
+                    onItemClickListener.onItemClick(position);
                 }
             });
         }
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Step step);
+        void onItemClick(int position);
     }
 }

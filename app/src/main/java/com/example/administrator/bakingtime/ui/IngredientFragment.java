@@ -4,6 +4,7 @@ package com.example.administrator.bakingtime.ui;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.example.administrator.bakingtime.adapter.StepAdapter;
 import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Step;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientFragment extends Fragment implements StepAdapter.OnItemClickListener {
@@ -67,9 +69,10 @@ public class IngredientFragment extends Fragment implements StepAdapter.OnItemCl
     }
 
     @Override
-    public void onItemClick(Step step) {
+    public void onItemClick(int index) {
         Intent intent = new Intent(getActivity().getApplicationContext(), StepActivity.class);
-        intent.putExtra("step", step);
+        intent.putParcelableArrayListExtra("steplist", (ArrayList<? extends Parcelable>) stepList);
+        intent.putExtra("index", index);
         startActivity(intent);
     }
 }
