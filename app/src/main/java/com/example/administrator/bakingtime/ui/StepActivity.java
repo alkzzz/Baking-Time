@@ -32,26 +32,26 @@ public class StepActivity extends AppCompatActivity {
         stepIndex = data.getInt("index");
 
         prevButton = (Button) findViewById(R.id.btn_previous);
+        prevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prevStep();
+            }
+        });
         if (stepIndex > 0) {
             prevButton.setVisibility(View.VISIBLE);
-            prevButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    prevStep();
-                }
-            });
         } else {
             prevButton.setVisibility(View.INVISIBLE);
         }
         nextButton = (Button) findViewById(R.id.btn_next);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextStep();
+            }
+        });
         if (stepIndex < stepList.size() -1) {
             nextButton.setVisibility(View.VISIBLE);
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    nextStep();
-                }
-            });
         } else {
             nextButton.setVisibility(View.INVISIBLE);
         }
@@ -91,7 +91,7 @@ public class StepActivity extends AppCompatActivity {
     }
 
     public void nextStep() {
-        if (stepIndex == stepList.size() -2) {
+        if (stepIndex == (stepList.size() - 2)) {
             nextButton.setVisibility(View.INVISIBLE);
         }
         if (stepIndex < stepList.size() -1) {
