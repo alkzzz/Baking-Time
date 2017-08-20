@@ -5,11 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.administrator.bakingtime.R;
+import com.example.administrator.bakingtime.model.Recipe;
+import com.example.administrator.bakingtime.network.RecipeJson;
+
+import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecipeJson.RecipeCallback {
+    private static final String URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     private static final String TAG_RECIPE_FRAGMENT = "RecipeFragment";
-
+    private List<Recipe> mRecipeList;
     private RecipeFragment mRecipeFragment;
 
     @Override
@@ -27,5 +32,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+//        RecipeJson recipeJson = new RecipeJson(URL, this);
+//        recipeJson.fetchRecipeData();
     }
+
+    @Override
+    public void onSuccess(List<Recipe> recipes) {
+//        mRecipeList = recipes;
+    }
+
 }

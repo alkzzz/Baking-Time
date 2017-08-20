@@ -62,6 +62,13 @@
             android:layout_height="wrap_content">
         </FrameLayout>
 
+        <FrameLayout
+            android:id="@+id/step_two_pane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+        </FrameLayout>
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

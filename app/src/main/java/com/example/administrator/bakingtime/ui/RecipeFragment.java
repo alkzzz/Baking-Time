@@ -1,7 +1,6 @@
 package com.example.administrator.bakingtime.ui;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -19,23 +18,17 @@ import com.example.administrator.bakingtime.adapter.RecipeAdapter;
 import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
 import com.example.administrator.bakingtime.model.Step;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Types;
+import com.example.administrator.bakingtime.network.RecipeJson;
+
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-
-public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClickListener {
+public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClickListener, RecipeJson.RecipeCallback {
     private static final String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
-    private Moshi moshi;
     private RecipeAdapter mRecipeAdapter;
     private RecyclerView mRecyclerView;
+    private List<Recipe> mRecipeList;
 
     public RecipeFragment() {}
 
@@ -49,68 +42,72 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recipe, container, false);
+
+        RecipeJson recipeJson = new RecipeJson(url, this);
+        recipeJson.fetchRecipeData();
+
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_recipe);
         mRecyclerView.setHasFixedSize(true);
-        if (getString(R.string.layout_type).equals("sw600-dp")) {
-            mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 2));
-        } else {
+        if (getString(R.string.layout_type).equals("default")) {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        } else {
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 2));
         }
 
         return rootView;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            getRecipe();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        try {
+//            getRecipe();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    private void getRecipe() throws IOException {
-        OkHttpClient client = new OkHttpClient();
-
-        okhttp3.Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                call.cancel();
-            }
-
-            @Override
-            public void onResponse(Call call, okhttp3.Response response) throws IOException {
-
-                final String jsonResponse = response.body().string();
-
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        moshi = new Moshi.Builder().build();
-                        Type type = Types.newParameterizedType(List.class, Recipe.class);
-                        JsonAdapter<List<Recipe>> adapter = moshi.adapter(type);
-                        try {
-                            List<Recipe> recipes = adapter.fromJson(jsonResponse);
-                            if (recipes != null) {
-                                List<Recipe> mRecipeList = new ArrayList<>();
-                                mRecipeList.addAll(recipes);
-                                mRecipeAdapter = new RecipeAdapter(mRecipeList, RecipeFragment.this);
-                                mRecyclerView.setAdapter(mRecipeAdapter);
-                            }
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            }
-        });
-    }
+//    private void getRecipe() throws IOException {
+//        OkHttpClient client = new OkHttpClient();
+//
+//        okhttp3.Request request = new okhttp3.Request.Builder()
+//                .url(url)
+//                .build();
+//
+//        client.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                call.cancel();
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, okhttp3.Response response) throws IOException {
+//
+//                final String jsonResponse = response.body().string();
+//
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        moshi = new Moshi.Builder().build();
+//                        Type type = Types.newParameterizedType(List.class, Recipe.class);
+//                        JsonAdapter<List<Recipe>> adapter = moshi.adapter(type);
+//                        try {
+//                            List<Recipe> recipes = adapter.fromJson(jsonResponse);
+//                            if (recipes != null) {
+//                                List<Recipe> mRecipeList = new ArrayList<>();
+//                                mRecipeList.addAll(recipes);
+//                                mRecipeAdapter = new RecipeAdapter(mRecipeList, RecipeFragment.this);
+//                                mRecyclerView.setAdapter(mRecipeAdapter);
+//                            }
+//
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//            }
+//        });
+//    }
 
     @Override
     public void OnItemClick(Recipe recipe) {
@@ -127,5 +124,16 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
         intent.putParcelableArrayListExtra("ingredients", (ArrayList<? extends Parcelable>) ingredients);
         intent.putParcelableArrayListExtra("steps", (ArrayList<? extends Parcelable>) steps);
         getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void onSuccess(final List<Recipe> recipes) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mRecipeAdapter = new RecipeAdapter(recipes, RecipeFragment.this);
+                mRecyclerView.setAdapter(mRecipeAdapter);
+            }
+        });
     }
 }
