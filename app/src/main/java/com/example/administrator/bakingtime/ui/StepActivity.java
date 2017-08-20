@@ -74,6 +74,27 @@ public class StepActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("stepindex", stepIndex);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        stepIndex = savedInstanceState.getInt("stepindex");
+        if (stepIndex > 0) {
+            prevButton.setVisibility(View.VISIBLE);
+        } else {
+            prevButton.setVisibility(View.INVISIBLE);
+        }
+        if (stepIndex < stepList.size() - 1) {
+            nextButton.setVisibility(View.VISIBLE);
+        } else {
+            nextButton.setVisibility(View.INVISIBLE);
+        }
+    }
+
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
