@@ -18,12 +18,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            FragmentManager fm = getSupportFragmentManager();
-            mRecipeFragment = (RecipeFragment) fm.findFragmentByTag(TAG_RECIPE_FRAGMENT);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            mRecipeFragment = (RecipeFragment) fragmentManager.findFragmentByTag(TAG_RECIPE_FRAGMENT);
 
             if (mRecipeFragment == null) {
                 mRecipeFragment = new RecipeFragment();
-                fm.beginTransaction().add(mRecipeFragment, TAG_RECIPE_FRAGMENT).commit();
+                fragmentManager.beginTransaction().add(mRecipeFragment, TAG_RECIPE_FRAGMENT).commit();
             }
         }
 

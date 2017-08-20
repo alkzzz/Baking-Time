@@ -56,7 +56,7 @@ public class StepActivity extends AppCompatActivity {
                 mStepFragment.setStepList(stepList);
                 mStepFragment.setIndex(stepIndex);
 
-                getSupportFragmentManager().beginTransaction()
+                fragmentManager.beginTransaction()
                         .add(R.id.step_container, mStepFragment, TAG_STEP_FRAGMENT)
                         .commit();
             }
