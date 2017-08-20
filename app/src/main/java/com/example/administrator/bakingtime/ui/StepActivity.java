@@ -1,6 +1,7 @@
 package com.example.administrator.bakingtime.ui;
 
 import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -38,11 +39,6 @@ public class StepActivity extends AppCompatActivity {
                 prevStep();
             }
         });
-        if (stepIndex > 0) {
-            prevButton.setVisibility(View.VISIBLE);
-        } else {
-            prevButton.setVisibility(View.INVISIBLE);
-        }
         nextButton = (Button) findViewById(R.id.btn_next);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,23 +46,31 @@ public class StepActivity extends AppCompatActivity {
                 nextStep();
             }
         });
-        if (stepIndex < stepList.size() -1) {
-            nextButton.setVisibility(View.VISIBLE);
-        } else {
-            nextButton.setVisibility(View.INVISIBLE);
-        }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        mStepFragment = (StepFragment) fragmentManager.findFragmentByTag(TAG_STEP_FRAGMENT);
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            mStepFragment = (StepFragment) fragmentManager.findFragmentByTag(TAG_STEP_FRAGMENT);
 
-        if (mStepFragment == null) {
-            mStepFragment = new StepFragment();
-            mStepFragment.setStepList(stepList);
-            mStepFragment.setIndex(stepIndex);
+            if (mStepFragment == null) {
+                mStepFragment = new StepFragment();
+                mStepFragment.setStepList(stepList);
+                mStepFragment.setIndex(stepIndex);
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.step_container, mStepFragment, TAG_STEP_FRAGMENT)
-                    .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.step_container, mStepFragment, TAG_STEP_FRAGMENT)
+                        .commit();
+            }
+
+            if (stepIndex > 0) {
+                prevButton.setVisibility(View.VISIBLE);
+            } else {
+                prevButton.setVisibility(View.INVISIBLE);
+            }
+            if (stepIndex < stepList.size() - 1) {
+                nextButton.setVisibility(View.VISIBLE);
+            } else {
+                nextButton.setVisibility(View.INVISIBLE);
+            }
         }
     }
 

@@ -31,17 +31,19 @@ public class IngredientActivity extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle(recipe.getName());
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        mIngredientFragment = (IngredientFragment) fragmentManager.findFragmentByTag(TAG_INGREDIENT_FRAGMENT);
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            mIngredientFragment = (IngredientFragment) fragmentManager.findFragmentByTag(TAG_INGREDIENT_FRAGMENT);
 
-        if(mIngredientFragment == null) {
-            mIngredientFragment = new IngredientFragment();
-            mIngredientFragment.setIngredientList(mIngredientsList);
-            mIngredientFragment.setStepList(mStepList);
+            if(mIngredientFragment == null) {
+                IngredientFragment ingredientFragment = new IngredientFragment();
+                ingredientFragment.setIngredientList(mIngredientsList);
+                ingredientFragment.setStepList(mStepList);
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.ingredient_container, mIngredientFragment, null)
-                    .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.ingredient_container, ingredientFragment, null)
+                        .commit();
+            }
         }
     }
 
