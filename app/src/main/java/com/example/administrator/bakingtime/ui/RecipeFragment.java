@@ -28,7 +28,6 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
     private static final String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     private RecipeAdapter mRecipeAdapter;
     private RecyclerView mRecyclerView;
-    private List<Recipe> mRecipeList;
 
     public RecipeFragment() {}
 
@@ -56,58 +55,6 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
 
         return rootView;
     }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        try {
-//            getRecipe();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-//    private void getRecipe() throws IOException {
-//        OkHttpClient client = new OkHttpClient();
-//
-//        okhttp3.Request request = new okhttp3.Request.Builder()
-//                .url(url)
-//                .build();
-//
-//        client.newCall(request).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                call.cancel();
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, okhttp3.Response response) throws IOException {
-//
-//                final String jsonResponse = response.body().string();
-//
-//                getActivity().runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        moshi = new Moshi.Builder().build();
-//                        Type type = Types.newParameterizedType(List.class, Recipe.class);
-//                        JsonAdapter<List<Recipe>> adapter = moshi.adapter(type);
-//                        try {
-//                            List<Recipe> recipes = adapter.fromJson(jsonResponse);
-//                            if (recipes != null) {
-//                                List<Recipe> mRecipeList = new ArrayList<>();
-//                                mRecipeList.addAll(recipes);
-//                                mRecipeAdapter = new RecipeAdapter(mRecipeList, RecipeFragment.this);
-//                                mRecyclerView.setAdapter(mRecipeAdapter);
-//                            }
-//
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//            }
-//        });
-//    }
 
     @Override
     public void OnItemClick(Recipe recipe) {

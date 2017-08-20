@@ -6,24 +6,29 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.example.administrator.bakingtime.model.Ingredient;
+import com.example.administrator.bakingtime.model.Recipe;
+import com.example.administrator.bakingtime.network.RecipeJson;
 
 import java.util.List;
 
-public class IngredientProvider implements RemoteViewsService.RemoteViewsFactory {
+public class IngredientProvider implements RemoteViewsService.RemoteViewsFactory, RecipeJson.RecipeCallback {
     List<Ingredient> mIngredientList;
-    Context mContext;
+    Context mContext = null;
     Intent mIntent;
 
-    public IngredientProvider(List<Ingredient> ingredientList, Context context, Intent intent) {
-        mIngredientList = ingredientList;
+    private static final String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+
+    public IngredientProvider(Context context, Intent intent) {
         mContext = context;
         mIntent = intent;
     }
 
     @Override
     public void onCreate() {
-
+        RecipeJson recipeJson = new RecipeJson(url, this);
+        recipeJson.fetchRecipeData();
     }
+
 
     @Override
     public void onDataSetChanged() {
@@ -37,7 +42,7 @@ public class IngredientProvider implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public int getCount() {
-        return 0;
+        return mIngredientList.size();
     }
 
     @Override
@@ -52,16 +57,21 @@ public class IngredientProvider implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public int getViewTypeCount() {
-        return 0;
+        return 1;
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public boolean hasStableIds() {
         return false;
+    }
+
+    @Override
+    public void onSuccess(List<Recipe> recipes) {
+        mIngredientList = recipes.get(0).getIngredients();
     }
 }
