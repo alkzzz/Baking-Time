@@ -1,13 +1,13 @@
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:focusableInTouchMode="true">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -55,11 +55,11 @@
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_step"
+        <FrameLayout
+            android:id="@+id/step_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"/>
+            android:layout_height="wrap_content">
+        </FrameLayout>
 
     </LinearLayout>
 

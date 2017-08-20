@@ -122,7 +122,7 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
         for (Step step: recipe.getSteps()) {
             steps.add(step);
         }
-        Intent intent = new Intent(getActivity().getApplicationContext(), IngredientActivity.class);
+        Intent intent = new Intent(getActivity().getApplicationContext(), DetailActivity.class);
         intent.putExtra("recipe", recipe);
         intent.putParcelableArrayListExtra("ingredients", (ArrayList<? extends Parcelable>) ingredients);
         intent.putParcelableArrayListExtra("steps", (ArrayList<? extends Parcelable>) steps);
