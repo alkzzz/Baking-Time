@@ -80,6 +80,10 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
             public void run() {
                 mRecipeAdapter = new RecipeAdapter(recipes, RecipeFragment.this);
                 mRecyclerView.setAdapter(mRecipeAdapter);
+                Intent broadcastIntent = new Intent();
+                broadcastIntent.setAction("com.example.administrator.bakingtime.RECIPE_DATA");
+                broadcastIntent.putParcelableArrayListExtra("recipe", (ArrayList<? extends Parcelable>) recipes);
+                getContext().sendBroadcast(broadcastIntent);
             }
         });
     }

@@ -5,25 +5,27 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.administrator.bakingtime.R;
+import com.example.administrator.bakingtime.model.Recipe;
+
+import java.util.List;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class BakingWidget extends AppWidgetProvider {
+    List<Recipe> mRecipeList;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_widget);
 
         setRemoteAdapter(context, views);
 
-        // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
@@ -48,6 +50,11 @@ public class BakingWidget extends AppWidgetProvider {
     private static void setRemoteAdapter(Context context, @NonNull final RemoteViews views) {
         views.setRemoteAdapter(R.id.widget_list,
                 new Intent(context, WidgetService.class));
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        mRecipeList = intent.getParcelableArrayListExtra("recipe");
     }
 }
 
