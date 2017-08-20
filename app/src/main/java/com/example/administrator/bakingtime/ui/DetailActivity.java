@@ -83,7 +83,7 @@ public class DetailActivity extends AppCompatActivity {
             double quantity = ing.getQuantity();
             String ingredient = ing.getIngredient();
             CheckBox cbIngredients = new CheckBox(getApplicationContext());
-            cbIngredients.setText(quantity+" "+measure+" "+ingredient);
+            cbIngredients.setText(quantity+" "+measure+" of "+ingredient);
             cbIngredients.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             mChecboxList.add(cbIngredients);
         }
