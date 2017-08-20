@@ -22,6 +22,7 @@ public class StepActivity extends AppCompatActivity {
     private int stepIndex;
     private Button prevButton;
     private Button nextButton;
+    private ActionBar actionbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,8 @@ public class StepActivity extends AppCompatActivity {
         Bundle data = getIntent().getExtras();
         stepList = data.getParcelableArrayList("steplist");
         stepIndex = data.getInt("index");
+
+        actionbar = getSupportActionBar();
 
         if (getString(R.string.layout_type).equals("default")) {
             prevButton = (Button) findViewById(R.id.btn_previous);
@@ -50,6 +53,8 @@ public class StepActivity extends AppCompatActivity {
         }
 
         if (savedInstanceState == null) {
+            actionbar.setTitle("Step "+(stepIndex + 1));
+
             FragmentManager fragmentManager = getSupportFragmentManager();
             mStepFragment = (StepFragment) fragmentManager.findFragmentByTag(TAG_STEP_FRAGMENT);
 
@@ -101,10 +106,6 @@ public class StepActivity extends AppCompatActivity {
         }
     }
 
-    public void setActionBarTitle(String title) {
-        getSupportActionBar().setTitle(title);
-    }
-
     public void prevStep() {
         if (stepIndex > 0 ) {
             nextButton.setVisibility(View.VISIBLE);
@@ -119,6 +120,7 @@ public class StepActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.step_container, mStepFragment, TAG_STEP_FRAGMENT)
                 .commit();
+        actionbar.setTitle("Step "+(stepIndex + 1));
     }
 
     public void nextStep() {
@@ -135,5 +137,6 @@ public class StepActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.step_container, mStepFragment, TAG_STEP_FRAGMENT)
                 .commit();
+        actionbar.setTitle("Step "+(stepIndex + 1));
     }
 }

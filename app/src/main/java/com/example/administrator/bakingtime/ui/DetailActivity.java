@@ -22,10 +22,12 @@ public class DetailActivity extends AppCompatActivity {
     private List<Ingredient> mIngredientsList;
     private List<Step> mStepList;
     private static final String TAG_INGREDIENT_FRAGMENT = "DetailFragment";
+    private static final String TAG_STEP_FRAGMENT = "StepFragment";
     private DetailFragment mDetailFragment;
     private LinearLayout mLinearLayout;
     private List<CheckBox> mChecboxList = new ArrayList<>();
     private boolean[] stateList;
+    private boolean isTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +47,10 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
-
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle(recipe.getName());
+
+        isTwoPane = findViewById(R.id.step_two_pane) != null;
 
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -60,6 +63,16 @@ public class DetailActivity extends AppCompatActivity {
                 fragmentManager.beginTransaction()
                         .add(R.id.step_list, mDetailFragment, null)
                         .commit();
+
+                if (isTwoPane) {
+                    StepFragment stepFragment = new StepFragment();
+                    stepFragment.setStepList(mStepList);
+                    stepFragment.setIndex(0);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.step_two_pane, stepFragment, TAG_STEP_FRAGMENT)
+                            .commit();
+                }
             }
         }
     }

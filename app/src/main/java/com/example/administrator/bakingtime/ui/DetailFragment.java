@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,9 @@ import com.example.administrator.bakingtime.model.Step;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailFragment extends Fragment implements StepAdapter.OnItemClickListener {
+public class DetailFragment extends Fragment {
     private List<Step> stepList;
+    private boolean isTwoPane;
 
     public DetailFragment() {}
 
@@ -36,11 +38,12 @@ public class DetailFragment extends Fragment implements StepAdapter.OnItemClickL
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
+        isTwoPane = getActivity().findViewById(R.id.step_two_pane).getVisibility() != View.GONE;
 
         RecyclerView rvSteps = (RecyclerView) rootView.findViewById(R.id.rv_step);
         rvSteps.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         rvSteps.setNestedScrollingEnabled(false);
-        StepAdapter stepAdapter = new StepAdapter(stepList, DetailFragment.this);
+        StepAdapter stepAdapter = new StepAdapter(stepList, isTwoPane);
         rvSteps.setAdapter(stepAdapter);
 
         return rootView;
@@ -48,13 +51,5 @@ public class DetailFragment extends Fragment implements StepAdapter.OnItemClickL
 
     public void setStepList(List<Step> stepList) {
         this.stepList = stepList;
-    }
-
-    @Override
-    public void onItemClick(int index) {
-        Intent intent = new Intent(getActivity().getApplicationContext(), StepActivity.class);
-        intent.putParcelableArrayListExtra("steplist", (ArrayList<? extends Parcelable>) stepList);
-        intent.putExtra("index", index);
-        startActivity(intent);
     }
 }

@@ -54,8 +54,6 @@ public class StepFragment extends Fragment implements OnPreparedListener {
             String videoURL = mStepList.get(stepIndex).getVideoURL();
             String description = mStepList.get(stepIndex).getDescription();
 
-            ((StepActivity) getActivity()).setActionBarTitle("Step "+(stepIndex + 1));
-
             if (videoURL.equals("")) {
                 videoView.setVisibility(View.GONE);
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.iv_no_video);

@@ -1,0 +1,40 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_step_video"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.example.administrator.bakingtime.ui.StepFragment">
+
+    <ImageView
+        android:id="@+id/iv_no_video"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_videocam_off_black_24dp"/>
+
+    <com.devbrackets.android.exomedia.ui.widget.VideoView
+        android:id="@+id/vv_video"
+        app:useDefaultControls="true"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="8dp">
+    </com.devbrackets.android.exomedia.ui.widget.VideoView>
+
+    <TextView
+        android:id="@+id/tv_step_desc"
+        android:layout_width="match_parent"
+        android:textSize="20sp"
+        android:textColor="@color/textColorPrimary"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="8dp"/>
+
+</LinearLayout>

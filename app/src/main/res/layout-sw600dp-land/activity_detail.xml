@@ -71,7 +71,14 @@
 
     </android.support.v4.widget.NestedScrollView>
 
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/divider"/>
+
     <FrameLayout
+        android:id="@+id/step_two_pane"
+        android:layout_gravity="fill"
         android:layout_width="0dp"
         android:layout_height="800dp"
         android:layout_weight="2">
