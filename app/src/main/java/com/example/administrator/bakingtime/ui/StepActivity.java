@@ -32,20 +32,22 @@ public class StepActivity extends AppCompatActivity {
         stepList = data.getParcelableArrayList("steplist");
         stepIndex = data.getInt("index");
 
-        prevButton = (Button) findViewById(R.id.btn_previous);
-        prevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prevStep();
-            }
-        });
-        nextButton = (Button) findViewById(R.id.btn_next);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nextStep();
-            }
-        });
+        if (getString(R.string.layout_type).equals("default")) {
+            prevButton = (Button) findViewById(R.id.btn_previous);
+            prevButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    prevStep();
+                }
+            });
+            nextButton = (Button) findViewById(R.id.btn_next);
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    nextStep();
+                }
+            });
+        }
 
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -61,15 +63,17 @@ public class StepActivity extends AppCompatActivity {
                         .commit();
             }
 
-            if (stepIndex > 0) {
-                prevButton.setVisibility(View.VISIBLE);
-            } else {
-                prevButton.setVisibility(View.INVISIBLE);
-            }
-            if (stepIndex < stepList.size() - 1) {
-                nextButton.setVisibility(View.VISIBLE);
-            } else {
-                nextButton.setVisibility(View.INVISIBLE);
+            if (getString(R.string.layout_type).equals("default")) {
+                if (stepIndex > 0) {
+                    prevButton.setVisibility(View.VISIBLE);
+                } else {
+                    prevButton.setVisibility(View.INVISIBLE);
+                }
+                if (stepIndex < stepList.size() - 1) {
+                    nextButton.setVisibility(View.VISIBLE);
+                } else {
+                    nextButton.setVisibility(View.INVISIBLE);
+                }
             }
         }
     }
@@ -83,15 +87,17 @@ public class StepActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         stepIndex = savedInstanceState.getInt("stepindex");
-        if (stepIndex > 0) {
-            prevButton.setVisibility(View.VISIBLE);
-        } else {
-            prevButton.setVisibility(View.INVISIBLE);
-        }
-        if (stepIndex < stepList.size() - 1) {
-            nextButton.setVisibility(View.VISIBLE);
-        } else {
-            nextButton.setVisibility(View.INVISIBLE);
+        if (getString(R.string.layout_type).equals("default")) {
+            if (stepIndex > 0) {
+                prevButton.setVisibility(View.VISIBLE);
+            } else {
+                prevButton.setVisibility(View.INVISIBLE);
+            }
+            if (stepIndex < stepList.size() - 1) {
+                nextButton.setVisibility(View.VISIBLE);
+            } else {
+                nextButton.setVisibility(View.INVISIBLE);
+            }
         }
     }
 

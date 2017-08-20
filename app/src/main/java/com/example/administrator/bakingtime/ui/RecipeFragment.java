@@ -51,7 +51,7 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
         View rootView = inflater.inflate(R.layout.fragment_recipe, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_recipe);
         mRecyclerView.setHasFixedSize(true);
-        if (getString(R.string.layout_type).equals("sw-600-dp")) {
+        if (getString(R.string.layout_type).equals("sw600-dp")) {
             mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 2));
         } else {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
