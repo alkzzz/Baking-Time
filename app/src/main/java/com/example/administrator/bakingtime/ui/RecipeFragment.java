@@ -1,6 +1,7 @@
 package com.example.administrator.bakingtime.ui;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClickListener, RecipeJson.RecipeCallback {
+    private static final String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     private RecipeAdapter mRecipeAdapter;
     private RecyclerView mRecyclerView;
 
@@ -50,6 +52,13 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        RecipeJson recipeJson = new RecipeJson(url, this);
+        recipeJson.fetchRecipeData();
+        super.onAttach(context);
     }
 
     @Override
