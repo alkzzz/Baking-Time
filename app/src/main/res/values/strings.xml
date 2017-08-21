@@ -4,7 +4,7 @@
     <string name="step_title">Steps</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
-    <string name="appwidget_text">Baking Time</string>
-    <string name="add_widget">Add widget</string>
     <string name="layout_type">default</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
