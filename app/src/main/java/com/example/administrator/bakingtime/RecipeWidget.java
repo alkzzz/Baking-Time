@@ -5,14 +5,19 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.example.administrator.bakingtime.model.Recipe;
 import com.example.administrator.bakingtime.ui.MainActivity;
+
+import java.util.List;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class RecipeWidget extends AppWidgetProvider {
+    List<Recipe> recipeList;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -46,6 +51,12 @@ public class RecipeWidget extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        recipeList = intent.getParcelableArrayListExtra("recipes");
+        Log.d("coba", recipeList.get(0).getName());
     }
 }
 

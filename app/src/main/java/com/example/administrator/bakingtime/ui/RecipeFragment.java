@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClickListener, RecipeJson.RecipeCallback {
-    private static final String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     private RecipeAdapter mRecipeAdapter;
     private RecyclerView mRecyclerView;
 
@@ -41,9 +40,6 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recipe, container, false);
-
-        RecipeJson recipeJson = new RecipeJson(url, this);
-        recipeJson.fetchRecipeData();
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_recipe);
         mRecyclerView.setHasFixedSize(true);
@@ -80,10 +76,6 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
             public void run() {
                 mRecipeAdapter = new RecipeAdapter(recipes, RecipeFragment.this);
                 mRecyclerView.setAdapter(mRecipeAdapter);
-                Intent broadcastIntent = new Intent();
-                broadcastIntent.setAction("com.example.administrator.bakingtime.RECIPE_DATA");
-                broadcastIntent.putParcelableArrayListExtra("recipe", (ArrayList<? extends Parcelable>) recipes);
-                getContext().sendBroadcast(broadcastIntent);
             }
         });
     }
