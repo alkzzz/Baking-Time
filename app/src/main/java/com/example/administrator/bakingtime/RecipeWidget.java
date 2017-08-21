@@ -6,12 +6,15 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.administrator.bakingtime.model.Recipe;
+import com.example.administrator.bakingtime.ui.DetailActivity;
 import com.example.administrator.bakingtime.ui.MainActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,10 +28,13 @@ public class RecipeWidget extends AppWidgetProvider {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget);
 
-        Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-        views.setTextViewText(R.id.appwidget_text, recipeList.get(0).getName());
-        views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
+        Intent intent = new Intent(context, GridWidgetService.class);
+        intent.putParcelableArrayListExtra("recipes", (ArrayList<? extends Parcelable>) recipeList);
+        views.setRemoteAdapter(R.id.gridview_recipe, intent);
+
+        Intent appIntent = new Intent(context, DetailActivity.class);
+        PendingIntent appPendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setPendingIntentTemplate(R.id.gridview_recipe, appPendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
