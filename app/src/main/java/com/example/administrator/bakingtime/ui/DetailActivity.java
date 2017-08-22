@@ -76,7 +76,7 @@ public class DetailActivity extends AppCompatActivity {
                     StepFragment stepFragment = new StepFragment();
                     stepFragment.setStepList(mStepList);
                     stepFragment.setIndex(0);
-                   fragmentManager.beginTransaction()
+                    fragmentManager.beginTransaction()
                             .add(R.id.step_two_pane, stepFragment, TAG_STEP_FRAGMENT)
                             .commit();
                 }

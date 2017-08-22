@@ -13,20 +13,25 @@ import com.example.administrator.bakingtime.ui.DetailActivity;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class GridWidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new GridRemoteViewsFactory(this.getApplicationContext());
+        Realm realm = Realm.getDefaultInstance();
+        List<Recipe> recipeList = realm.copyFromRealm(realm.where(Recipe.class).findAll());
+        return new GridRemoteViewsFactory(this.getApplicationContext(), realm, recipeList);
     }
 
     class GridRemoteViewsFactory implements RemoteViewsFactory {
         Context context;
-        Realm realm = Realm.getDefaultInstance();
-        List<Recipe> recipeList = realm.copyFromRealm(realm.where(Recipe.class).findAll());;
+        Realm realm;
+        List<Recipe> recipeList;
 
-        public GridRemoteViewsFactory(Context context) {
+        public GridRemoteViewsFactory(Context context, Realm realm, List<Recipe> recipeList) {
             this.context = context;
+            this.realm = realm;
+            this.recipeList = recipeList;
         }
 
         @Override
@@ -41,6 +46,7 @@ public class GridWidgetService extends RemoteViewsService {
 
         @Override
         public void onDestroy() {
+            realm.close();
         }
 
         @Override

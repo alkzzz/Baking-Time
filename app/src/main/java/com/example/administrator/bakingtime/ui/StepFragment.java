@@ -1,38 +1,43 @@
 package com.example.administrator.bakingtime.ui;
 
 
-import android.media.MediaPlayer;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.MediaController;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
-import com.devbrackets.android.exomedia.core.video.scale.ScaleType;
-import com.devbrackets.android.exomedia.listener.OnPreparedListener;
-import com.devbrackets.android.exomedia.ui.widget.VideoControls;
 import com.example.administrator.bakingtime.R;
-import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Step;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class StepFragment extends Fragment implements OnPreparedListener {
+public class StepFragment extends Fragment {
     private List<Step> mStepList;
     private int stepIndex;
-    private com.devbrackets.android.exomedia.ui.widget.VideoView videoView;;
+    private SimpleExoPlayerView videoView;
+    private SimpleExoPlayer player;
 
     public StepFragment() {}
 
@@ -40,6 +45,19 @@ public class StepFragment extends Fragment implements OnPreparedListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        setupVideoPlayer(getActivity().getApplicationContext());
+    }
+
+    private void setupVideoPlayer(Context context) {
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        TrackSelection.Factory videoTrackSelectionFactory =
+                new AdaptiveTrackSelection.Factory(bandwidthMeter);
+        TrackSelector trackSelector =
+                new DefaultTrackSelector(videoTrackSelectionFactory);
+
+        player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
+        player.setPlayWhenReady(true);
     }
 
     @Override
@@ -47,8 +65,8 @@ public class StepFragment extends Fragment implements OnPreparedListener {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step, container, false);
 
-        videoView = (com.devbrackets.android.exomedia.ui.widget.VideoView) rootView.findViewById(R.id.vv_video);
-
+        videoView = (SimpleExoPlayerView) rootView.findViewById(R.id.vv_video);
+        videoView.setPlayer(player);
 
         if (mStepList != null) {
             String videoURL = mStepList.get(stepIndex).getVideoURL();
@@ -59,8 +77,9 @@ public class StepFragment extends Fragment implements OnPreparedListener {
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.iv_no_video);
                 imageView.setVisibility(View.VISIBLE);
             } else {
-                videoView.setOnPreparedListener(this);
-                videoView.setVideoURI(Uri.parse(videoURL));
+                videoView.setPlayer(player);
+                videoView.setUseController(true);
+                prepareVideo(videoURL);
             }
 
             if (rootView.findViewById(R.id.layout_fullscreen) == null) {
@@ -72,9 +91,16 @@ public class StepFragment extends Fragment implements OnPreparedListener {
         return rootView;
     }
 
-    @Override
-    public void onPrepared() {
-        videoView.start();
+    private void prepareVideo(String videoURL) {
+        Context context = getActivity().getApplicationContext();
+        Uri uri = Uri.parse(videoURL);
+        DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
+                Util.getUserAgent(context, "BakingApplication"), bandwidthMeter);
+        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+        MediaSource videoSource = new ExtractorMediaSource(uri,
+                dataSourceFactory, extractorsFactory, null, null);
+        player.prepare(videoSource);
     }
 
     public void setStepList(List<Step> stepList) {
@@ -83,5 +109,11 @@ public class StepFragment extends Fragment implements OnPreparedListener {
 
     public void setIndex(int index) {
         stepIndex = index;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        player.release();
     }
 }

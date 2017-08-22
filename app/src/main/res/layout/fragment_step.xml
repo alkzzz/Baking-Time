@@ -19,14 +19,13 @@
         android:scaleType="fitXY"
         android:src="@drawable/ic_videocam_off_black_24dp"/>
 
-    <com.devbrackets.android.exomedia.ui.widget.VideoView
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/vv_video"
-        app:useDefaultControls="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_margin="8dp">
-    </com.devbrackets.android.exomedia.ui.widget.VideoView>
+    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
 
     <TextView
         android:id="@+id/tv_step_desc"

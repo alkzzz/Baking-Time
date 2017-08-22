@@ -29,18 +29,14 @@ public class RecipeWidget extends AppWidgetProvider {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget);
 
-        setRemoteAdapter(context, views);
+        Intent intent = new Intent(context, GridWidgetService.class);
+        views.setRemoteAdapter(R.id.gridview_recipe, intent);
 
         Intent appIntent = new Intent(context, DetailActivity.class);
         PendingIntent appPendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setPendingIntentTemplate(R.id.gridview_recipe, appPendingIntent);
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
-    }
-
-    private static void setRemoteAdapter(Context context, RemoteViews views) {
-        views.setRemoteAdapter(R.id.gridview_recipe,
-                new Intent(context, GridWidgetService.class));
     }
 
     @Override
