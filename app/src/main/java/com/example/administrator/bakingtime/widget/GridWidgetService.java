@@ -1,10 +1,11 @@
-package com.example.administrator.bakingtime;
+package com.example.administrator.bakingtime.widget;
 
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.model.Recipe;
 
 import java.util.List;
@@ -12,8 +13,9 @@ import java.util.List;
 public class GridWidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        List<Recipe> recipes = intent.getParcelableArrayListExtra("recipes");
-        return new GridRemoteViewsFactory(this.getApplicationContext(), recipes);
+        //List<Recipe> recipes = intent.getParcelableArrayListExtra("recipes");
+//        return new GridRemoteViewsFactory(this.getApplicationContext(), recipes);
+        return null;
     }
 
     class GridRemoteViewsFactory implements RemoteViewsFactory {

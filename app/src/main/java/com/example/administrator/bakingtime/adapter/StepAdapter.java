@@ -17,6 +17,8 @@ import com.example.administrator.bakingtime.ui.DetailActivity;
 import com.example.administrator.bakingtime.ui.StepActivity;
 import com.example.administrator.bakingtime.ui.StepFragment;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +72,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
                     if (!isTwoPane) {
                         context = v.getContext();
                         Intent intent = new Intent(context, StepActivity.class);
-                        intent.putParcelableArrayListExtra("steplist", (ArrayList<? extends Parcelable>) stepList);
+                        //intent.putParcelableArrayListExtra("steplist", (ArrayList<? extends Parcelable>) stepList);
                         intent.putExtra("index", position);
                         context.startActivity(intent);
                     } else {

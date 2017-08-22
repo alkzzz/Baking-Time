@@ -1,10 +1,8 @@
 package com.example.administrator.bakingtime.ui;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,19 +14,16 @@ import android.view.ViewGroup;
 
 import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.adapter.RecipeAdapter;
-import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
-import com.example.administrator.bakingtime.model.Step;
-import com.example.administrator.bakingtime.network.RecipeJson;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import org.parceler.Parcels;
 import java.util.List;
 
-public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClickListener, RecipeJson.RecipeCallback {
-    private static final String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
-    private RecipeAdapter mRecipeAdapter;
-    private RecyclerView mRecyclerView;
+import io.realm.Realm;
+
+
+public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClickListener {
+    private List<Recipe> mRecipeList;
 
     public RecipeFragment() {}
 
@@ -43,49 +38,34 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.OnItemClic
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recipe, container, false);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_recipe);
-        mRecyclerView.setHasFixedSize(true);
-        if (getString(R.string.layout_type).equals("default")) {
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        } else {
-            mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 2));
+        Realm realm = Realm.getDefaultInstance();
+
+        mRecipeList = realm.where(Recipe.class).findAll();
+
+        if (mRecipeList != null) {
+            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.rv_recipe);
+            recyclerView.setHasFixedSize(true);
+
+            if (getString(R.string.layout_type).equals("default")) {
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+            } else {
+                recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 2));
+            }
+            RecipeAdapter recipeAdapter = new RecipeAdapter(mRecipeList, this);
+            recyclerView.setAdapter(recipeAdapter);
         }
 
         return rootView;
     }
 
     @Override
-    public void onAttach(Context context) {
-        RecipeJson recipeJson = new RecipeJson(url, this);
-        recipeJson.fetchRecipeData();
-        super.onAttach(context);
-    }
-
-    @Override
     public void OnItemClick(Recipe recipe) {
-        List<Ingredient> ingredients = new ArrayList<>();
-        for (Ingredient ingredient: recipe.getIngredients()) {
-            ingredients.add(ingredient);
-        }
-        List<Step> steps = new ArrayList<>();
-        for (Step step: recipe.getSteps()) {
-            steps.add(step);
-        }
         Intent intent = new Intent(getActivity().getApplicationContext(), DetailActivity.class);
-        intent.putExtra("recipe", recipe);
-        intent.putParcelableArrayListExtra("ingredients", (ArrayList<? extends Parcelable>) ingredients);
-        intent.putParcelableArrayListExtra("steps", (ArrayList<? extends Parcelable>) steps);
+        intent.putExtra("recipe", Parcels.wrap(recipe));
         getActivity().startActivity(intent);
     }
 
-    @Override
-    public void onSuccess(final List<Recipe> recipes) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mRecipeAdapter = new RecipeAdapter(recipes, RecipeFragment.this);
-                mRecyclerView.setAdapter(mRecipeAdapter);
-            }
-        });
+    public void setRecipeList(List<Recipe> recipeList) {
+        mRecipeList = recipeList;
     }
 }

@@ -15,6 +15,8 @@ import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
 import com.example.administrator.bakingtime.model.Step;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +35,10 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        Bundle data = getIntent().getExtras();
-        Recipe recipe = data.getParcelable("recipe");
+        Recipe recipe = Parcels.unwrap(getIntent().getParcelableExtra("recipe"));
 
-        mIngredientsList = data.getParcelableArrayList("ingredients");
-        mStepList = data.getParcelableArrayList("steps");
+        mIngredientsList = recipe.getIngredients();
+        mStepList = recipe.getSteps();
 
         mLinearLayout = (LinearLayout) findViewById(R.id.ll_ingredient_list);
         generateIngredientChecbox();

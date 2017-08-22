@@ -1,4 +1,4 @@
-package com.example.administrator.bakingtime;
+package com.example.administrator.bakingtime.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -7,12 +7,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
-import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.model.Recipe;
 import com.example.administrator.bakingtime.ui.DetailActivity;
-import com.example.administrator.bakingtime.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ public class RecipeWidget extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget);
 
         Intent intent = new Intent(context, GridWidgetService.class);
-        intent.putParcelableArrayListExtra("recipes", (ArrayList<? extends Parcelable>) recipeList);
+        //intent.putParcelableArrayListExtra("recipes", (ArrayList<? extends Parcelable>) recipeList);
         views.setRemoteAdapter(R.id.gridview_recipe, intent);
 
         Intent appIntent = new Intent(context, DetailActivity.class);
@@ -57,7 +56,7 @@ public class RecipeWidget extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        recipeList = intent.getParcelableArrayListExtra("recipes");
+        //recipeList = intent.getParcelableArrayListExtra("recipes");
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
         ComponentName recipeWidget = new ComponentName(context.getApplicationContext(), RecipeWidget.class);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(recipeWidget);

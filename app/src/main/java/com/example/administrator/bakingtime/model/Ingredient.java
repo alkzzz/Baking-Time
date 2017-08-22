@@ -1,9 +1,18 @@
 package com.example.administrator.bakingtime.model;
 
-import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Ingredient implements Parcelable {
+import org.parceler.Parcel;
+
+import io.realm.IngredientRealmProxy;
+import io.realm.RealmModel;
+import io.realm.RealmObject;
+import io.realm.annotations.RealmClass;
+
+@Parcel(implementations = { IngredientRealmProxy.class },
+        value = Parcel.Serialization.FIELD,
+        analyze = { Ingredient.class })
+public class Ingredient extends RealmObject {
     public double quantity;
     public String measure;
     public String ingredient;
@@ -32,36 +41,4 @@ public class Ingredient implements Parcelable {
         this.ingredient = ingredient;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeDouble(this.quantity);
-        dest.writeString(this.measure);
-        dest.writeString(this.ingredient);
-    }
-
-    public Ingredient() {
-    }
-
-    protected Ingredient(Parcel in) {
-        this.quantity = in.readDouble();
-        this.measure = in.readString();
-        this.ingredient = in.readString();
-    }
-
-    public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
-        @Override
-        public Ingredient createFromParcel(Parcel source) {
-            return new Ingredient(source);
-        }
-
-        @Override
-        public Ingredient[] newArray(int size) {
-            return new Ingredient[size];
-        }
-    };
 }

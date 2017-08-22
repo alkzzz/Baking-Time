@@ -30,7 +30,7 @@ public class StepActivity extends AppCompatActivity {
         setContentView(R.layout.activity_step);
 
         Bundle data = getIntent().getExtras();
-        stepList = data.getParcelableArrayList("steplist");
+        //stepList = data.getParcelableArrayList("steplist");
         stepIndex = data.getInt("index");
 
         actionbar = getSupportActionBar();

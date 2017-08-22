@@ -1,29 +1,34 @@
 package com.example.administrator.bakingtime.ui;
 
-import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.model.Recipe;
-import com.example.administrator.bakingtime.network.RecipeJson;
-
-import java.util.ArrayList;
-import java.util.List;
+import io.realm.Realm;
 
 
-public class MainActivity extends AppCompatActivity implements RecipeJson.RecipeCallback {
-    private static final String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+public class MainActivity extends AppCompatActivity {
     private static final String TAG_RECIPE_FRAGMENT = "RecipeFragment";
     private RecipeFragment mRecipeFragment;
+    private Realm realm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        realm = Realm.getDefaultInstance();
+        if(realm.where(Recipe.class).count() == 0) {
+            importRecipeFromJson();
+        }
 
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -34,15 +39,31 @@ public class MainActivity extends AppCompatActivity implements RecipeJson.Recipe
                 fragmentManager.beginTransaction().add(mRecipeFragment, TAG_RECIPE_FRAGMENT).commit();
             }
         }
-        RecipeJson recipeJson = new RecipeJson(url, this);
-        recipeJson.fetchRecipeData();
     }
 
-    @Override
-    public void onSuccess(List<Recipe> recipes) {
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction("com.example.administrator.bakingtime.RECIPE_DATA");
-        broadcastIntent.putParcelableArrayListExtra("recipes", (ArrayList<? extends Parcelable>) recipes);
-        sendBroadcast(broadcastIntent);
+    public void importRecipeFromJson() {
+        String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(final String response) {
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                realm.createAllFromJson(Recipe.class, response);
+                            }
+                        });
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+
+        });
+
+        queue.add(stringRequest);
     }
 }
