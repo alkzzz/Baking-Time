@@ -20,6 +20,8 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+
 public class DetailActivity extends AppCompatActivity {
     private List<Ingredient> mIngredientsList;
     private List<Step> mStepList;
@@ -29,13 +31,16 @@ public class DetailActivity extends AppCompatActivity {
     private LinearLayout mLinearLayout;
     private List<CheckBox> mChecboxList = new ArrayList<>();
     private boolean[] stateList;
-    private boolean isTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        Recipe recipe = Parcels.unwrap(getIntent().getParcelableExtra("recipe"));
+        int recipe_id = getIntent().getIntExtra("recipe_id", 0);
+
+        Realm realm = Realm.getDefaultInstance();
+
+        Recipe recipe = realm.where(Recipe.class).equalTo("id", recipe_id).findFirst();
 
         mIngredientsList = recipe.getIngredients();
         mStepList = recipe.getSteps();
@@ -51,7 +56,7 @@ public class DetailActivity extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle(recipe.getName());
 
-        isTwoPane = findViewById(R.id.step_two_pane) != null;
+        boolean isTwoPane = findViewById(R.id.step_two_pane) != null;
 
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -59,6 +64,7 @@ public class DetailActivity extends AppCompatActivity {
 
             if(mDetailFragment == null) {
                 mDetailFragment = new DetailFragment();
+                mDetailFragment.setRecipeId(recipe_id);
                 mDetailFragment.setStepList(mStepList);
 
                 fragmentManager.beginTransaction()
@@ -69,8 +75,7 @@ public class DetailActivity extends AppCompatActivity {
                     StepFragment stepFragment = new StepFragment();
                     stepFragment.setStepList(mStepList);
                     stepFragment.setIndex(0);
-                    getSupportFragmentManager()
-                            .beginTransaction()
+                   fragmentManager.beginTransaction()
                             .add(R.id.step_two_pane, stepFragment, TAG_STEP_FRAGMENT)
                             .commit();
                 }

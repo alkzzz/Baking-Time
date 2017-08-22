@@ -1,14 +1,7 @@
 package com.example.administrator.bakingtime.model;
 
-
-import org.parceler.Parcel;
-
 import io.realm.RealmObject;
-import io.realm.StepRealmProxy;
 
-@Parcel(implementations = { StepRealmProxy.class },
-        value = Parcel.Serialization.FIELD,
-        analyze = { Step.class })
 public class Step extends RealmObject {
     public int id;
     public String shortDescription;

@@ -11,18 +11,26 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.administrator.bakingtime.R;
+import com.example.administrator.bakingtime.model.Recipe;
 import com.example.administrator.bakingtime.model.Step;
 
 import java.util.List;
+
+import io.realm.Realm;
 
 public class StepActivity extends AppCompatActivity {
     private static final String TAG_STEP_FRAGMENT = "StepFragment";
     private StepFragment mStepFragment;
     private List<Step> stepList;
+    private int recipe_id;
     private int stepIndex;
+    private Realm realm;
     private Button prevButton;
     private Button nextButton;
     private ActionBar actionbar;
+
+    public StepActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +38,12 @@ public class StepActivity extends AppCompatActivity {
         setContentView(R.layout.activity_step);
 
         Bundle data = getIntent().getExtras();
-        //stepList = data.getParcelableArrayList("steplist");
+        recipe_id = data.getInt("recipe_id");
         stepIndex = data.getInt("index");
+
+        realm = Realm.getDefaultInstance();
+
+        stepList = realm.where(Recipe.class).equalTo("id", recipe_id).findFirst().getSteps();
 
         actionbar = getSupportActionBar();
 

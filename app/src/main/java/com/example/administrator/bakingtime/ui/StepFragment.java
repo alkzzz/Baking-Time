@@ -33,6 +33,7 @@ public class StepFragment extends Fragment implements OnPreparedListener {
     private List<Step> mStepList;
     private int stepIndex;
     private com.devbrackets.android.exomedia.ui.widget.VideoView videoView;
+    private int recipe_id;
 
     public StepFragment() {}
 
@@ -85,4 +86,7 @@ public class StepFragment extends Fragment implements OnPreparedListener {
         stepIndex = index;
     }
 
+    public void setRecipeId(int recipe_id) {
+        this.recipe_id = recipe_id;
+    }
 }

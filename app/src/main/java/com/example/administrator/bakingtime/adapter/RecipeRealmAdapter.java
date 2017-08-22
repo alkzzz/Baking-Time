@@ -49,8 +49,8 @@ public class RecipeRealmAdapter extends RealmRecyclerViewAdapter<Recipe, RecipeR
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
-            cardView = (CardView) itemView.findViewById(R.id.cv_recipe);
             tvRecipeName = (TextView) itemView.findViewById(R.id.tv_recipe_name);
+            cardView = (CardView) itemView.findViewById(R.id.cv_recipe);
         }
     }
 

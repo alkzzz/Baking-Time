@@ -8,18 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.administrator.bakingtime.R;
-import com.example.administrator.bakingtime.adapter.RecipeAdapter;
 import com.example.administrator.bakingtime.adapter.RecipeRealmAdapter;
 import com.example.administrator.bakingtime.model.Recipe;
-
-import org.parceler.Parcels;
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -31,7 +26,6 @@ public class RecipeFragment extends Fragment implements RecipeRealmAdapter.OnIte
     private RealmResults<Recipe> recipes;
     private RecyclerView mRecyclerView;
     private RecipeRealmAdapter recipeRealmAdapter;
-    private RealmChangeListener changeListener;
 
     public RecipeFragment() {}
 
@@ -49,15 +43,16 @@ public class RecipeFragment extends Fragment implements RecipeRealmAdapter.OnIte
         realm = Realm.getDefaultInstance();
 
         recipes = realm.where(Recipe.class).findAll();
-
-        changeListener = new RealmChangeListener() {
-            @Override
-            public void onChange(Object o) {
-                setupRecyclerView(rootView);
-            }
-        };
-
-        recipes.addChangeListener(changeListener);
+        if (recipes.size() > 0) {
+            setupRecyclerView(rootView);
+        } else {
+            recipes.addChangeListener(new RealmChangeListener<RealmResults<Recipe>>() {
+                @Override
+                public void onChange(RealmResults<Recipe> recipes) {
+                    setupRecyclerView(rootView);
+                }
+            });
+        }
 
         return rootView;
     }
@@ -85,6 +80,9 @@ public class RecipeFragment extends Fragment implements RecipeRealmAdapter.OnIte
 
     @Override
     public void OnItemClick(int position) {
-        Log.d("coba", "haaiii");
+        Intent intent = new Intent(getActivity().getApplicationContext(), DetailActivity.class);
+        int recipe_id = recipes.get(position).getId();
+        intent.putExtra("recipe_id", recipe_id);
+        startActivity(intent);
     }
 }

@@ -25,12 +25,14 @@ import java.util.List;
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {
     private List<Step> stepList;
     private boolean isTwoPane;
+    private int recipe_id;
 
     private static final String TAG_STEP_FRAGMENT = "StepFragment";
 
-    public StepAdapter(List<Step> stepList, boolean isTwoPane) {
+    public StepAdapter(List<Step> stepList, boolean isTwoPane, int recipe_id) {
         this.stepList = stepList;
         this.isTwoPane = isTwoPane;
+        this.recipe_id = recipe_id;
     }
 
     @Override
@@ -72,7 +74,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
                     if (!isTwoPane) {
                         context = v.getContext();
                         Intent intent = new Intent(context, StepActivity.class);
-                        //intent.putParcelableArrayListExtra("steplist", (ArrayList<? extends Parcelable>) stepList);
+                        intent.putExtra("recipe_id", recipe_id);
                         intent.putExtra("index", position);
                         context.startActivity(intent);
                     } else {
