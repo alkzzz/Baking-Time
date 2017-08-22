@@ -31,6 +31,7 @@ public class DetailActivity extends AppCompatActivity {
     private LinearLayout mLinearLayout;
     private List<CheckBox> mChecboxList = new ArrayList<>();
     private boolean[] stateList;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         int recipe_id = getIntent().getIntExtra("recipe_id", 0);
 
-        Realm realm = Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
 
         Recipe recipe = realm.where(Recipe.class).equalTo("id", recipe_id).findFirst();
 
@@ -114,5 +115,11 @@ public class DetailActivity extends AppCompatActivity {
         for (int i = 0; i < mChecboxList.size(); i++) {
             mChecboxList.get(i).setChecked(stateList[i]);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 }

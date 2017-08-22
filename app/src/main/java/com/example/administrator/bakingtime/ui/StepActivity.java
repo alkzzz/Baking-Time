@@ -151,4 +151,10 @@ public class StepActivity extends AppCompatActivity {
                 .commit();
         actionbar.setTitle("Step "+(stepIndex + 1));
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
 }

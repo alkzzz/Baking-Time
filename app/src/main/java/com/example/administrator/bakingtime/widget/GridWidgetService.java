@@ -2,29 +2,31 @@ package com.example.administrator.bakingtime.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.model.Recipe;
+import com.example.administrator.bakingtime.ui.DetailActivity;
 
 import java.util.List;
+
+import io.realm.Realm;
 
 public class GridWidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        //List<Recipe> recipes = intent.getParcelableArrayListExtra("recipes");
-//        return new GridRemoteViewsFactory(this.getApplicationContext(), recipes);
-        return null;
+        return new GridRemoteViewsFactory(this.getApplicationContext());
     }
 
     class GridRemoteViewsFactory implements RemoteViewsFactory {
         Context context;
-        List<Recipe> recipeList;
+        Realm realm = Realm.getDefaultInstance();
+        List<Recipe> recipeList = realm.copyFromRealm(realm.where(Recipe.class).findAll());;
 
-        public GridRemoteViewsFactory(Context context, List<Recipe> recipeList) {
+        public GridRemoteViewsFactory(Context context) {
             this.context = context;
-            this.recipeList = recipeList;
         }
 
         @Override
@@ -39,7 +41,6 @@ public class GridWidgetService extends RemoteViewsService {
 
         @Override
         public void onDestroy() {
-
         }
 
         @Override
@@ -49,8 +50,17 @@ public class GridWidgetService extends RemoteViewsService {
 
         @Override
         public RemoteViews getViewAt(int position) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget);
-            views.setTextViewText(R.id.textview_recipe ,recipeList.get(position).getName());
+            int recipe_id = recipeList.get(position).getId();
+
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_list_view);
+            views.setTextViewText(R.id.textview_recipe, recipeList.get(position).getName());
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("recipe_id", recipe_id);
+            Intent fillInIntent = new Intent();
+            fillInIntent.putExtras(bundle);
+            views.setOnClickFillInIntent(R.id.textview_recipe, fillInIntent);
+
             return views;
         }
 
