@@ -11,24 +11,24 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.administrator.bakingtime.R;
+import com.example.administrator.bakingtime.RecipeSync;
 import com.example.administrator.bakingtime.model.Recipe;
+
+import java.util.List;
+
 import io.realm.Realm;
 
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_RECIPE_FRAGMENT = "RecipeFragment";
     private RecipeFragment mRecipeFragment;
-    private Realm realm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        realm = Realm.getDefaultInstance();
-        if(realm.where(Recipe.class).count() == 0) {
-            importRecipeFromJson();
-        }
+        RecipeSync.initialize(this);
 
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -41,29 +41,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void importRecipeFromJson() {
-        String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(final String response) {
-                        realm.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                realm.createAllFromJson(Recipe.class, response);
-                            }
-                        });
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-
-        });
-
-        queue.add(stringRequest);
-    }
 }

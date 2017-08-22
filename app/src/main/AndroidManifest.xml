@@ -25,13 +25,15 @@
         <receiver android:name=".widget.RecipeWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.example.administrator.bakingtime.RECIPE_DATA" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/recipe_widget_info" />
         </receiver>
+
+        <service android:name=".RecipeSyncIntentService"
+            android:exported="false"/>
     </application>
 
 </manifest>

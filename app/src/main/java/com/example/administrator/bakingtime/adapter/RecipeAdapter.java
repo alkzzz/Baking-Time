@@ -1,5 +1,6 @@
 package com.example.administrator.bakingtime.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,11 +14,12 @@ import com.example.administrator.bakingtime.model.Recipe;
 import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
-    private List<Recipe> recipes;
+    private Context context;
     private OnItemClickListener mItemClickListener;
+    private List<Recipe> recipes;
 
-    public RecipeAdapter(List<Recipe> recipes, OnItemClickListener onItemClickListener) {
-        this.recipes = recipes;
+    public RecipeAdapter(Context context, OnItemClickListener onItemClickListener) {
+        this.context = context;
         mItemClickListener = onItemClickListener;
     }
 
