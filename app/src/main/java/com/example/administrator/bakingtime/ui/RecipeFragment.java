@@ -22,12 +22,16 @@ import org.parceler.Parcels;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 
 
 public class RecipeFragment extends Fragment implements RecipeRealmAdapter.OnItemClickListener {
     private Realm realm;
+    private RealmResults<Recipe> recipes;
     private RecyclerView mRecyclerView;
     private RecipeRealmAdapter recipeRealmAdapter;
+    private RealmChangeListener changeListener;
 
     public RecipeFragment() {}
 
@@ -40,17 +44,26 @@ public class RecipeFragment extends Fragment implements RecipeRealmAdapter.OnIte
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_recipe, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_recipe, container, false);
 
         realm = Realm.getDefaultInstance();
 
-        setupRecyclerView(rootView);
+        recipes = realm.where(Recipe.class).findAll();
+
+        changeListener = new RealmChangeListener() {
+            @Override
+            public void onChange(Object o) {
+                setupRecyclerView(rootView);
+            }
+        };
+
+        recipes.addChangeListener(changeListener);
 
         return rootView;
     }
 
     private void setupRecyclerView(View view) {
-        recipeRealmAdapter = new RecipeRealmAdapter(realm.where(Recipe.class).findAll(), true, this);
+        recipeRealmAdapter = new RecipeRealmAdapter(recipes, true, this);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_recipe);
         mRecyclerView.setHasFixedSize(true);
