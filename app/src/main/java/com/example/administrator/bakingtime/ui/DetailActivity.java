@@ -1,22 +1,15 @@
 package com.example.administrator.bakingtime.ui;
 
-import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-
 import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
 import com.example.administrator.bakingtime.model.Step;
-
-import org.parceler.Parcels;
-
 import java.util.ArrayList;
 import java.util.List;
 

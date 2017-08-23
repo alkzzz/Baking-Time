@@ -1,4 +1,4 @@
-package com.example.administrator.bakingtime;
+package com.example.administrator.bakingtime.sync;
 
 import android.app.IntentService;
 import android.content.Intent;

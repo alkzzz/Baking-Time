@@ -12,12 +12,9 @@ import android.view.ViewGroup;
 
 import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.adapter.StepAdapter;
-import com.example.administrator.bakingtime.model.Recipe;
 import com.example.administrator.bakingtime.model.Step;
 
 import java.util.List;
-
-import io.realm.Realm;
 
 public class DetailFragment extends Fragment {
     private boolean isTwoPane;

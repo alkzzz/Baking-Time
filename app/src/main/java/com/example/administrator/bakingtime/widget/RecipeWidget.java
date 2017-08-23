@@ -3,20 +3,15 @@ package com.example.administrator.bakingtime.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.widget.RemoteViews;
 
 import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.model.Recipe;
 import com.example.administrator.bakingtime.ui.DetailActivity;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import io.realm.Realm;
 
 /**
  * Implementation of App Widget functionality.

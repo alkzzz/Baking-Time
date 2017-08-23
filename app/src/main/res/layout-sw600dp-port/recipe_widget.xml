@@ -9,14 +9,12 @@
         android:background="@color/colorPrimaryLight"
         android:orientation="vertical">
     <LinearLayout
-        android:id="@+id/widget_layout_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:padding="12dp">
         <ImageView
-            android:id="@+id/widget_img_launcher"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"

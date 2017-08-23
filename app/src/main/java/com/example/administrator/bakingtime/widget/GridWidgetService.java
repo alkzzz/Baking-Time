@@ -8,12 +8,10 @@ import android.widget.RemoteViewsService;
 
 import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.model.Recipe;
-import com.example.administrator.bakingtime.ui.DetailActivity;
 
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class GridWidgetService extends RemoteViewsService {
     @Override

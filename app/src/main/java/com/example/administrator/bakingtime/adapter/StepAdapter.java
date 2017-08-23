@@ -2,10 +2,8 @@ package com.example.administrator.bakingtime.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +14,6 @@ import com.example.administrator.bakingtime.model.Step;
 import com.example.administrator.bakingtime.ui.DetailActivity;
 import com.example.administrator.bakingtime.ui.StepActivity;
 import com.example.administrator.bakingtime.ui.StepFragment;
-
-import org.parceler.Parcels;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {

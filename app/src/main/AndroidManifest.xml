@@ -32,7 +32,7 @@
                 android:resource="@xml/recipe_widget_info" />
         </receiver>
 
-        <service android:name=".RecipeSyncIntentService"
+        <service android:name=".sync.RecipeSyncIntentService"
             android:exported="false"/>
 
         <service android:name=".widget.GridWidgetService"

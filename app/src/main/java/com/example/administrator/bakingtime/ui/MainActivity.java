@@ -1,29 +1,21 @@
 package com.example.administrator.bakingtime.ui;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.administrator.bakingtime.R;
-import com.example.administrator.bakingtime.RecipeSync;
-import com.example.administrator.bakingtime.model.Recipe;
-
-import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
+import com.example.administrator.bakingtime.sync.RecipeSync;
 
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG_RECIPE_FRAGMENT = "RecipeFragment";
     private RecipeFragment mRecipeFragment;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
