@@ -39,5 +39,8 @@ dependencies {
     compile 'com.android.support:support-annotations:25.4.0'
     // Testing-only dependencies
     androidTestCompile 'com.android.support.test:runner:1.0.0'
+    androidTestCompile 'com.android.support.test:rules:1.0.0'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.0'
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.0'
+
 }
