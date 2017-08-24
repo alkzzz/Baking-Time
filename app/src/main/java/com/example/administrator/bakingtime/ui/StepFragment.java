@@ -15,7 +15,9 @@ import android.widget.TextView;
 
 import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.model.Step;
+import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
@@ -49,18 +51,29 @@ public class StepFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        setupVideoPlayer(getActivity().getApplicationContext());
     }
 
-    private void setupVideoPlayer(Context context) {
-        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory =
-                new AdaptiveTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector =
-                new DefaultTrackSelector(videoTrackSelectionFactory);
+    private void initializePlayer(String videoURL) {
+        if (player == null) {
+            Uri uri = Uri.parse(videoURL);
+            Context context = getActivity().getApplicationContext();
+            TrackSelector trackSelector = new DefaultTrackSelector();
+            LoadControl loadControl = new DefaultLoadControl();
+            player = ExoPlayerFactory.newSimpleInstance(context, trackSelector, loadControl);
+            videoView.setPlayer(player);
 
-        player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
-        player.setPlayWhenReady(true);
+            String userAgent = Util.getUserAgent(getActivity().getApplicationContext(), "ClassicalMusicQuiz");
+            MediaSource videoSource = new ExtractorMediaSource(uri, new DefaultDataSourceFactory(
+                    context, userAgent), new DefaultExtractorsFactory(), null, null);
+            player.prepare(videoSource);
+            player.setPlayWhenReady(true);
+        }
+    }
+
+    private void releasePlayer() {
+        player.stop();
+        player.release();
+        player = null;
     }
 
     @Override
@@ -90,9 +103,7 @@ public class StepFragment extends Fragment {
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.iv_no_video);
                 imageView.setVisibility(View.VISIBLE);
             } else {
-                videoView.setPlayer(player);
-                videoView.setUseController(true);
-                prepareVideo(videoURL);
+                initializePlayer(videoURL);
             }
 
             if (rootView.findViewById(R.id.layout_fullscreen) == null) {
@@ -104,18 +115,6 @@ public class StepFragment extends Fragment {
         return rootView;
     }
 
-    private void prepareVideo(String videoURL) {
-        Context context = getActivity().getApplicationContext();
-        Uri uri = Uri.parse(videoURL);
-        DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context,
-                Util.getUserAgent(context, "BakingApplication"), bandwidthMeter);
-        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-        MediaSource videoSource = new ExtractorMediaSource(uri,
-                dataSourceFactory, extractorsFactory, null, null);
-        player.prepare(videoSource);
-    }
-
     public void setStepList(List<Step> stepList) {
         mStepList = stepList;
     }
@@ -125,8 +124,9 @@ public class StepFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        player.release();
+    public void onPause() {
+        super.onPause();
+        releasePlayer();
     }
+
 }
