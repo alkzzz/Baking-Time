@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import com.example.administrator.bakingtime.R;
@@ -50,7 +51,7 @@ public class DetailActivity extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle(recipe.getName());
 
-        boolean isTwoPane = findViewById(R.id.step_two_pane) != null;
+        boolean isTwoPane = findViewById(R.id.step_two_pane).getVisibility() != View.GONE;
 
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();

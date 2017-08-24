@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.example.administrator.bakingtime.ui.MainActivity;
 
-import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
