@@ -40,7 +40,7 @@ public class StepActivity extends AppCompatActivity {
 
         realm = Realm.getDefaultInstance();
 
-        stepList = realm.where(Recipe.class).equalTo("id", recipe_id).findFirst().getSteps();
+        stepList = realm.copyFromRealm(realm.where(Recipe.class).equalTo("id", recipe_id).findFirst().getSteps());
 
         actionbar = getSupportActionBar();
 

@@ -129,4 +129,10 @@ public class StepFragment extends Fragment {
         releasePlayer();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        String videoURL = mStepList.get(stepIndex).getVideoURL();
+        initializePlayer(videoURL);
+    }
 }
