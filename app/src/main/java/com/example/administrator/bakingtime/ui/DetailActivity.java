@@ -50,6 +50,7 @@ public class DetailActivity extends AppCompatActivity {
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle(recipe.getName());
+        actionbar.setDisplayHomeAsUpEnabled(true);
 
         boolean isTwoPane = findViewById(R.id.step_two_pane).getVisibility() != View.GONE;
 

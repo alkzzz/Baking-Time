@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.administrator.bakingtime.BakingApplication;
 import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.sync.RecipeSync;
 
@@ -22,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (isConnected()) RecipeSync.initialize(this);
+        if (isOnline()) RecipeSync.initialize(this);
 
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isConnected() {
+    private boolean isOnline() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

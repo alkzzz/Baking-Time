@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.administrator.bakingtime">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.example.administrator.bakingtime">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -20,8 +21,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.DetailActivity"></activity>
-        <activity android:name=".ui.StepActivity"></activity>
+        <activity android:name=".ui.DetailActivity"
+                  android:parentActivityName=".ui.MainActivity"
+                  android:launchMode="singleTop"
+                  tools:targetApi="jelly_bean">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.administrator.bakingtime.ui.MainActivity" />
+        </activity>
+        <activity android:name=".ui.StepActivity"
+                  android:parentActivityName=".ui.DetailActivity"
+                  tools:targetApi="jelly_bean">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.administrator.bakingtime.ui.DetailActivity" />
+
+        </activity>
 
         <receiver android:name=".widget.RecipeWidget">
             <intent-filter>
