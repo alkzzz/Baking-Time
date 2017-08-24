@@ -42,17 +42,15 @@ public class RecipeFragment extends Fragment implements RecipeRealmAdapter.OnIte
 
         realm = Realm.getDefaultInstance();
 
-        recipes = realm.where(Recipe.class).findAll();
-        if (recipes.size() > 0) {
-            setupRecyclerView(rootView);
-        } else {
-            recipes.addChangeListener(new RealmChangeListener<RealmResults<Recipe>>() {
-                @Override
-                public void onChange(RealmResults<Recipe> recipes) {
-                    setupRecyclerView(rootView);
-                }
-            });
-        }
+        recipes = realm.where(Recipe.class).findAllAsync();
+        setupRecyclerView(rootView);
+
+        recipes.addChangeListener(new RealmChangeListener<RealmResults<Recipe>>() {
+            @Override
+            public void onChange(RealmResults<Recipe> recipes) {
+                setupRecyclerView(rootView);
+            }
+        });
 
         return rootView;
     }
