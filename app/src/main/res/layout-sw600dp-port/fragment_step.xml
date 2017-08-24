@@ -3,9 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.example.administrator.bakingtime.ui.StepFragment">
+
+    <ImageView
+        android:id="@+id/iv_thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"/>
 
     <ImageView
         android:id="@+id/iv_no_video"

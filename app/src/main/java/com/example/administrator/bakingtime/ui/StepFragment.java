@@ -31,12 +31,14 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class StepFragment extends Fragment {
     private List<Step> mStepList;
     private int stepIndex;
+    private ImageView thumbnailImage;
     private SimpleExoPlayerView videoView;
     private SimpleExoPlayer player;
 
@@ -66,12 +68,22 @@ public class StepFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step, container, false);
 
+        thumbnailImage = (ImageView) rootView.findViewById(R.id.iv_thumbnail);
         videoView = (SimpleExoPlayerView) rootView.findViewById(R.id.vv_video);
+
         videoView.setPlayer(player);
 
         if (mStepList != null) {
+            String thumbnailURL = mStepList.get(stepIndex).getThumbnailURL();
             String videoURL = mStepList.get(stepIndex).getVideoURL();
             String description = mStepList.get(stepIndex).getDescription();
+
+            if (!TextUtils.isEmpty(thumbnailURL)) {
+                thumbnailImage.setVisibility(View.VISIBLE);
+                Picasso.with(getActivity().getApplicationContext())
+                        .load(thumbnailURL)
+                        .into(thumbnailImage);
+            }
 
             if (TextUtils.isEmpty(videoURL)) {
                 videoView.setVisibility(View.GONE);
