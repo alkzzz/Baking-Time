@@ -1,13 +1,10 @@
 package com.example.administrator.bakingtime.ui;
 
-import android.content.res.Configuration;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import com.example.administrator.bakingtime.R;
@@ -35,13 +32,6 @@ public class StepActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        int orientation = getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-
         setContentView(R.layout.activity_step);
 
         Bundle data = getIntent().getExtras();

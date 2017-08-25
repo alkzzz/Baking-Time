@@ -28,7 +28,7 @@
                 android:scaleType="fitXY"/>
 
             <TextView
-                android:id="@+id/iv_recipe_servings"
+                android:id="@+id/tv_recipe_servings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.model.Step;
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
@@ -45,6 +46,7 @@ public class StepFragment extends Fragment {
     private ImageView thumbnailImage;
     private SimpleExoPlayerView videoView;
     private SimpleExoPlayer player;
+    private long videoPosition;
 
     public StepFragment() {}
 
@@ -67,13 +69,16 @@ public class StepFragment extends Fragment {
                     context, userAgent), new DefaultExtractorsFactory(), null, null);
             player.prepare(videoSource);
             player.setPlayWhenReady(true);
+            player.seekTo(videoPosition);
         }
     }
 
     private void releasePlayer() {
-        player.stop();
-        player.release();
-        player = null;
+        if (player != null) {
+            videoPosition = player.getCurrentPosition();
+            player.release();
+            player = null;
+        }
     }
 
     @Override
@@ -135,4 +140,5 @@ public class StepFragment extends Fragment {
         String videoURL = mStepList.get(stepIndex).getVideoURL();
         initializePlayer(videoURL);
     }
+
 }
