@@ -1,12 +1,21 @@
 package com.example.administrator.bakingtime.ui;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
@@ -26,6 +35,7 @@ public class DetailActivity extends AppCompatActivity {
     private List<CheckBox> mChecboxList = new ArrayList<>();
     private boolean[] stateList;
     private Realm realm;
+    private Recipe recipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +45,7 @@ public class DetailActivity extends AppCompatActivity {
 
         realm = Realm.getDefaultInstance();
 
-        Recipe recipe = realm.where(Recipe.class).equalTo("id", recipe_id).findFirst();
+        recipe = realm.where(Recipe.class).equalTo("id", recipe_id).findFirst();
 
         mIngredientsList = recipe.getIngredients();
         mStepList = recipe.getSteps();
@@ -77,6 +87,36 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.wiget_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_to_widget:
+                addToWidget();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void addToWidget() {
+        SharedPreferences sharedPref = getSharedPreferences("WIDGET_PREF", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("recipe_id", recipe.getId());
+        editor.apply();
+
+        Toast.makeText(this, "Add "+recipe.getName()+" to Widget", Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent();
+        intent.setAction("com.example.administrator.bakingtime.ADD_TO_WIDGET");
+        sendBroadcast(intent);
     }
 
     private void generateIngredientChecbox() {

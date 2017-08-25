@@ -32,12 +32,16 @@
             android:paddingEnd="@dimen/widget_header_padding"
             android:paddingRight="@dimen/widget_header_padding"/>
     </LinearLayout>
-    <ListView
-        android:id="@+id/gridview_recipe"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="4dp">
-    </ListView>
+
+        <TextView
+            android:id="@+id/widget_ingredient"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"/>
+
     </LinearLayout>
 
 </FrameLayout>

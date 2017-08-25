@@ -43,6 +43,7 @@
         <receiver android:name=".widget.RecipeWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.administrator.bakingtime.ADD_TO_WIDGET" />
             </intent-filter>
 
             <meta-data
@@ -53,8 +54,6 @@
         <service android:name=".sync.RecipeSyncIntentService"
             android:exported="false"/>
 
-        <service android:name=".widget.GridWidgetService"
-                 android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>
 
 </manifest>
