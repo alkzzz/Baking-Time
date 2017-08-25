@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,7 +52,6 @@ public class StepFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-
     }
 
     private void initializePlayer(String videoURL) {
@@ -58,8 +59,7 @@ public class StepFragment extends Fragment {
             Uri uri = Uri.parse(videoURL);
             Context context = getActivity().getApplicationContext();
             TrackSelector trackSelector = new DefaultTrackSelector();
-            LoadControl loadControl = new DefaultLoadControl();
-            player = ExoPlayerFactory.newSimpleInstance(context, trackSelector, loadControl);
+            player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
             videoView.setPlayer(player);
 
             String userAgent = Util.getUserAgent(getActivity().getApplicationContext(), "ClassicalMusicQuiz");

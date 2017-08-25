@@ -7,19 +7,24 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.bakingtime.R;
 import com.example.administrator.bakingtime.model.Ingredient;
 import com.example.administrator.bakingtime.model.Recipe;
 import com.example.administrator.bakingtime.model.Step;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +51,18 @@ public class DetailActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
 
         recipe = realm.where(Recipe.class).equalTo("id", recipe_id).findFirst();
+
+        ImageView recipeImage = (ImageView) findViewById(R.id.iv_recipe_image);
+        TextView servingText = (TextView) findViewById(R.id.tv_recipe_servings);
+
+        String image = recipe.getImage();
+        if (!TextUtils.isEmpty(image)) {
+            Picasso.with(this)
+                    .load(image)
+                    .into(recipeImage);
+        }
+
+        servingText.setText(getString(R.string.servings, recipe.getServings()));
 
         mIngredientsList = recipe.getIngredients();
         mStepList = recipe.getSteps();

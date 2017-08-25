@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">Baking Time</string>
-    <string name="ingredient_title">Ingredients</string>
-    <string name="step_title">Steps</string>
-    <string name="previous">Previous</string>
-    <string name="next">Next</string>
-    <string name="layout_type">sw600-dp</string>
-</resources>
