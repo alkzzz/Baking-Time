@@ -28,25 +28,16 @@ public class RecipeWidget extends AppWidgetProvider {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget);
 
-        Realm realm = Realm.getDefaultInstance();
-
         SharedPreferences sharedPref = context.getSharedPreferences("WIDGET_PREF", 0);
         int recipe_id = sharedPref.getInt("recipe_id", 1);
 
+        Realm realm = Realm.getDefaultInstance();
         Recipe recipe = realm.copyFromRealm(realm.where(Recipe.class).equalTo("id", recipe_id).findFirst());
 
         views.setTextViewText(R.id.widget_recipe_name, recipe.getName());
 
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Ingredient ing: recipe.getIngredients()) {
-            String measure = ing.getMeasure();
-            double quantity = ing.getQuantity();
-            String ingredient = ing.getIngredient();
-            stringBuilder.append(quantity+" "+measure+" of "+ingredient);
-            stringBuilder.append("\n\n");
-        }
-
-        views.setTextViewText(R.id.widget_ingredient, stringBuilder.toString());
+        Intent intent = new Intent(context, ListWidgetService.class);
+        views.setRemoteAdapter(R.id.listview_recipe, intent);
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
 
@@ -78,6 +69,7 @@ public class RecipeWidget extends AppWidgetProvider {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
         ComponentName thisWidget = new ComponentName(context.getApplicationContext(), RecipeWidget.class);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.listview_recipe);
         if (appWidgetIds != null && appWidgetIds.length > 0) {
             onUpdate(context, appWidgetManager, appWidgetIds);
         }

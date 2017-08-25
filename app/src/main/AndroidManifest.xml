@@ -51,6 +51,9 @@
                 android:resource="@xml/recipe_widget_info" />
         </receiver>
 
+        <service android:name=".widget.ListWidgetService"
+                 android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <service android:name=".sync.RecipeSyncIntentService"
             android:exported="false"/>
 
