@@ -57,6 +57,7 @@ public class DetailActivity extends AppCompatActivity {
 
         String image = recipe.getImage();
         if (!TextUtils.isEmpty(image)) {
+            recipeImage.setVisibility(View.VISIBLE);
             Picasso.with(this)
                     .load(image)
                     .into(recipeImage);
