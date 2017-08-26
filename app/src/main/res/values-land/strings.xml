@@ -1,1 +1,12 @@
-xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ 
+    <string name="app_name">Baking Time</string>
+    <string name="ingredient_title">Ingredients</string>
+    <string name="step_title">Steps</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="layout_type">land</string>
+    <string name="servings">Servings for %d people</string>
+</resources>
